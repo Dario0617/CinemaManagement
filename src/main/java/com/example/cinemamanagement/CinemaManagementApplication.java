@@ -20,10 +20,12 @@ public class CinemaManagementApplication extends Application {
         double screenHeight = screen.getBounds().getHeight();
 
         // Calculer la taille de la fenêtre en laissant un espace en haut pour la barre de titre
-        double windowHeight = screenHeight * 0.9;
+        double windowHeight = screenHeight * 0.6;
+        double windowWidth = screenWidth * 0.6;
 
         // Définir la taille de la fenêtre
-        primaryStage.setScene(new Scene(root, screenWidth, windowHeight));
+        primaryStage.setScene(new Scene(root, windowWidth, windowHeight));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
