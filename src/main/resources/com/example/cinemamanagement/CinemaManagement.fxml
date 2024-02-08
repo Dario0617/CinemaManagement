@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemamanagement.CinemaManagementController">
+
+    <top>
+        <!-- Ajoutez ici votre barre de menu ou d'autres éléments pour la navigation -->
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane">
+            <tabs>
+                <Tab text="Liste des films" closable="false">
+                    <content>
+                        <fx:include source="MovieListTab.fxml" />
+                    </content>
+                </Tab>
+                <Tab text="Ajouter" closable="false">
+                    <fx:include source="AddManagementTab.fxml" />
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+
+</BorderPane>

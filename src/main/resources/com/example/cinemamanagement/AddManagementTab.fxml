@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.cinemamanagement.AddManagementTabController"
+      alignment="CENTER"
+      spacing="10"
+      style="-fx-background-color: #f0f0f0; -fx-padding: 20px;">
+
+    <!-- Section Ajouter un film -->
+    <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
+        <Label text="Ajouter un film" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="filmNameField" promptText="Nom du film"/>
+        <TextField fx:id="yearField" promptText="Année de sortie"/>
+        <ComboBox fx:id="genreComboBox" promptText="Genre"/>
+        <TextField fx:id="detailsField" promptText="Détails"/>
+        <TextField fx:id="durationField" promptText="Durée"/>
+        <Button text="Ajouter Film" onAction="#addFilm"/>
+    </VBox>
+
+    <!-- Séparateur -->
+    <Separator/>
+
+    <!-- Section Ajouter un genre -->
+    <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
+        <Label text="Ajouter un genre" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="genreNameField" promptText="Nom du genre"/>
+        <Button text="Ajouter Genre" onAction="#addGenre"/>
+    </VBox>
+
+    <!-- Séparateur -->
+    <Separator/>
+
+    <!-- Section Ajouter une salle -->
+    <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
+        <Label text="Ajouter une salle" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="roomNameField" promptText="Nom de la salle"/>
+        <TextField fx:id="capacityField" promptText="Capacité assises"/>
+        <Button text="Ajouter Salle" onAction="#addRoom"/>
+    </VBox>
+
+</VBox>
