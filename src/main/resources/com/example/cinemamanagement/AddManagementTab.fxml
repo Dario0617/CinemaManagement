@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -17,12 +16,12 @@
     <!-- Section Ajouter un film -->
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un film" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="filmNameField" promptText="Nom du film"/>
-        <TextField fx:id="yearField" promptText="Année de sortie"/>
-        <ComboBox fx:id="genreComboBox" promptText="Genre"/>
-        <TextField fx:id="detailsField" promptText="Détails"/>
-        <TextField fx:id="durationField" promptText="Durée"/>
-        <Button text="Ajouter Film" onAction="#addFilm"/>
+        <TextField fx:id="FilmNameField" promptText="Nom du film"/>
+        <TextField fx:id="YearField" promptText="Année de sortie"/>
+        <ComboBox fx:id="GenderComboBox" promptText="Genre"/>
+        <TextField fx:id="DetailsField" promptText="Détails"/>
+        <TextField fx:id="DurationField" promptText="Durée"/>
+        <Button text="Ajouter Film" onAction="#AddFilm"/>
     </VBox>
 
     <!-- Séparateur -->
@@ -31,8 +30,8 @@
     <!-- Section Ajouter un genre -->
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un genre" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="genreNameField" promptText="Nom du genre"/>
-        <Button text="Ajouter Genre" onAction="#addGenre"/>
+        <TextField fx:id="GenderNameField" promptText="Nom du genre"/>
+        <Button text="Ajouter Genre" onAction="#AddGender"/>
     </VBox>
 
     <!-- Séparateur -->
@@ -41,9 +40,9 @@
     <!-- Section Ajouter une salle -->
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter une salle" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="roomNameField" promptText="Nom de la salle"/>
-        <TextField fx:id="capacityField" promptText="Capacité assises"/>
-        <Button text="Ajouter Salle" onAction="#addRoom"/>
+        <TextField fx:id="RoomNameField" promptText="Nom de la salle"/>
+        <TextField fx:id="CapacityField" promptText="Capacité assises"/>
+        <Button text="Ajouter Salle" onAction="#AddRoom"/>
     </VBox>
 
 </VBox>

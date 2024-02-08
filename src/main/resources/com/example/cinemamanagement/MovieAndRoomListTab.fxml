@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Separator?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cinemamanagement.MovieAndRoomListTabController">
+
+    <top>
+        <VBox spacing="5" style="-fx-padding: 10px; -fx-background-color: #f0f0f0;">
+            <Label text="Filtres films:" style="-fx-font-weight: bold;"/>
+            <HBox spacing="10">
+                <TextField fx:id="NameFilterField" promptText="Nom"/>
+                <ComboBox fx:id="GenderFilterComboBox" promptText="Genre">
+                    <!-- Add gender in Controller from BDD -->
+                </ComboBox>
+                <HBox spacing="5">
+                    <Label text="Entre"/>
+                    <DatePicker fx:id="StartDateFilterDatePicker" promptText="Début"/>
+                    <Label text="et"/>
+                    <DatePicker fx:id="EndDateFilterDatePicker" promptText="Fin"/>
+                </HBox>
+                <TextField fx:id="DurationFilterField" promptText="Durée (minutes)"/>
+                <Button text="Filtrer" onAction="#ApplyFilters"/>
+                <Button fx:id="ResetFiltersButton" text="Réinitialiser" onAction="#ResetFilters"/>
+            </HBox>
+            <Separator></Separator>
+            <Label text="Filtres salles:" style="-fx-font-weight: bold;"/>
+            <HBox spacing="10">
+                <TextField fx:id="roomNameFilterField" promptText="Nom"/>
+                <!-- Ajoutez d'autres filtres nécessaires pour les salles -->
+                <Button text="Filtrer Salles" onAction="#applyRoomFilters"/>
+                <Button text="Réinitialiser" onAction="#resetRoomFilters"/>
+            </HBox>
+        </VBox>
+        <VBox alignment="CENTER">
+            <Label text="Liste des Films / Salles" style="-fx-font-size: 18pt; -fx-font-weight: bold;"/>
+        </VBox>
+    </top>
+    <center>
+        <HBox spacing="10">
+            <!-- Tableau pour la liste des films -->
+            <TableView fx:id="MovieTableView" VBox.vgrow="ALWAYS" prefWidth="600" HBox.hgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn text="ID" prefWidth="10">
+                        <cellValueFactory><PropertyValueFactory property="Id"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Nom" prefWidth="150">
+                        <cellValueFactory><PropertyValueFactory property="Name"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Détails" prefWidth="150">
+                        <cellValueFactory><PropertyValueFactory property="Details"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Genre" prefWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="Gender"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Date" prefWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="ReleaseDate"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Durée" prefWidth="100">
+                        <cellValueFactory><PropertyValueFactory property="Duration"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Action" prefWidth="100">
+                        <!-- Add button modify and delete in Controller -->
+                    </TableColumn>
+                </columns>
+            </TableView>
+
+            <!-- Tableau pour la liste des salles -->
+            <TableView fx:id="RoomTableView" VBox.vgrow="ALWAYS" prefWidth="600" HBox.hgrow="ALWAYS">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn text="ID" prefWidth="50">
+                        <cellValueFactory><PropertyValueFactory property="Id"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Nom" prefWidth="150">
+                        <cellValueFactory><PropertyValueFactory property="Name"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Capacité" prefWidth="150">
+                        <cellValueFactory><PropertyValueFactory property="Capacity"/></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Action" prefWidth="100">
+                        <!-- Add button modify and delete in Controller -->
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </HBox>
+    </center>
+
+</BorderPane>
