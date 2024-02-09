@@ -158,22 +158,22 @@ public class MovieAndRoomListTabController {
         // Filter table data from filtered data
         FilteredList<Movie> filteredData = MovieTableView.getItems().filtered(movie -> {
             // Filter by name
-            if (!nameFilter.isEmpty() && !movie.GetName().toLowerCase().contains(nameFilter)) {
+            if (!nameFilter.isEmpty() && !movie.getName().toLowerCase().contains(nameFilter)) {
                 return false;
             }
             // Filter by gender
-            if (genderFilter != null && !genderFilter.isEmpty() && !movie.GetGender().equalsIgnoreCase(genderFilter)) {
+            if (genderFilter != null && !genderFilter.isEmpty() && !movie.getGender().equalsIgnoreCase(genderFilter)) {
                 return false;
             }
             // Filter by date
-            if (startDateFilter != null && movie.GetReleaseDate().isBefore(startDateFilter)) {
+            if (startDateFilter != null && movie.getReleaseDate().isBefore(startDateFilter)) {
                 return false;
             }
-            if (endDateFilter != null && movie.GetReleaseDate().isAfter(endDateFilter)) {
+            if (endDateFilter != null && movie.getReleaseDate().isAfter(endDateFilter)) {
                 return false;
             }
             // Filter by duration
-            return durationFilter == null || movie.GetDuration() == durationFilter;
+            return durationFilter == null || movie.getDuration() == durationFilter;
         });
 
         // Update table data with filtered data
@@ -210,7 +210,7 @@ public class MovieAndRoomListTabController {
         String nameFilter = RoomNameFilterField.getText().toLowerCase();
         FilteredList<Room> filteredData = RoomTableView.getItems().filtered(room -> {
             // Filter by name
-            return nameFilter.isEmpty() || room.GetName().toLowerCase().contains(nameFilter);
+            return nameFilter.isEmpty() || room.getName().toLowerCase().contains(nameFilter);
         });
 
         // Update table data with filtered data

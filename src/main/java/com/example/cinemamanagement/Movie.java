@@ -19,27 +19,27 @@ public class Movie {
         this.Duration = duration;
     }
 
-    public int GetId() {
+    public int getId() {
         return Id;
     }
 
-    public String GetName() {
+    public String getName() {
         return Name;
     }
 
-    public String GetDetails() {
+    public String getDetails() {
         return Details;
     }
 
-    public String GetGender() {
+    public String getGender() {
         return Gender;
     }
 
-    public LocalDate GetReleaseDate() {
+    public LocalDate getReleaseDate() {
         return ReleaseDate;
     }
 
-    public int GetDuration() {
+    public int getDuration() {
         return Duration;
     }
 }
