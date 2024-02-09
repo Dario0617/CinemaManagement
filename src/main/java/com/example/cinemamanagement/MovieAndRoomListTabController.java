@@ -21,35 +21,28 @@ public class MovieAndRoomListTabController {
     private TableView<Room> RoomTableView;
 
     @FXML
-    private TextField NameFilterField;
+    private TextField MovieNameFilterField;
 
     @FXML
-    private ComboBox<String> GenderFilterComboBox;
+    private ComboBox<String> MovieGenderFilterComboBox;
 
     @FXML
-    private DatePicker StartDateFilterDatePicker;
+    private DatePicker MovieStartDateFilterDatePicker;
 
     @FXML
-    private DatePicker EndDateFilterDatePicker;
+    private DatePicker MovieEndDateFilterDatePicker;
 
     @FXML
-    private TextField DurationFilterField;
+    private TextField MovieDurationFilterField;
 
     @FXML
-    private Button ResetFiltersButton;
+    private Button ResetMovieFiltersButton;
 
     @FXML
-    private TextField roomNameFilterField;
+    private TextField RoomNameFilterField;
 
     @FXML
-    private void applyRoomFilters() {
-        // Appliquer les filtres pour la table des salles
-    }
-
-    @FXML
-    private void resetRoomFilters() {
-        // Réinitialiser les filtres pour la table des salles
-    }
+    private Button ResetRoomFiltersButton;
 
     private List<Movie> OriginalMovieList = new ArrayList<>();
     private List<Room> OriginalRoomList = new ArrayList<>();
@@ -57,7 +50,7 @@ public class MovieAndRoomListTabController {
     @FXML
     private void initialize() {
         ConfigureColumns();
-        LoadGenderDataAndInitializFilter();
+        LoadGenderDataAndInitializeFilter();
         LoadMovieData();
         LoadRoomData();
     }
@@ -132,10 +125,9 @@ public class MovieAndRoomListTabController {
         });
     }
 
-    private void LoadGenderDataAndInitializFilter() {
+    private void LoadGenderDataAndInitializeFilter() {
         List<String> genders = Arrays.asList("Action", "Comédie", "Drame", "Horreur", "Science-fiction", "Thriller");
-        GenderFilterComboBox.getItems().addAll(genders);
-        ResetFiltersButton.setDisable(true);
+        MovieGenderFilterComboBox.getItems().addAll(genders);
     }
 
     private void LoadMovieData() {
@@ -155,42 +147,39 @@ public class MovieAndRoomListTabController {
     }
 
     @FXML
-    private void ApplyFilters() {
+    private void ApplyMovieFilters() {
         // Get data from filter
-        String nameFilter = NameFilterField.getText().toLowerCase();
-        String genderFilter = GenderFilterComboBox.getValue();
-        LocalDate startDateFilter = StartDateFilterDatePicker.getValue();
-        LocalDate endDateFilter = EndDateFilterDatePicker.getValue();
-        Integer durationFilter = ParseDuration(DurationFilterField.getText());
+        String nameFilter = MovieNameFilterField.getText().toLowerCase();
+        String genderFilter = MovieGenderFilterComboBox.getValue();
+        LocalDate startDateFilter = MovieStartDateFilterDatePicker.getValue();
+        LocalDate endDateFilter = MovieEndDateFilterDatePicker.getValue();
+        Integer durationFilter = ParseDuration(MovieDurationFilterField.getText());
 
         // Filter table data from filtered data
         FilteredList<Movie> filteredData = MovieTableView.getItems().filtered(movie -> {
             // Filter by name
-            if (nameFilter != null && !nameFilter.isEmpty() && !movie.getName().toLowerCase().contains(nameFilter)) {
+            if (!nameFilter.isEmpty() && !movie.GetName().toLowerCase().contains(nameFilter)) {
                 return false;
             }
             // Filter by gender
-            if (genderFilter != null && !genderFilter.isEmpty() && !movie.getGender().equalsIgnoreCase(genderFilter)) {
+            if (genderFilter != null && !genderFilter.isEmpty() && !movie.GetGender().equalsIgnoreCase(genderFilter)) {
                 return false;
             }
             // Filter by date
-            if (startDateFilter != null && movie.getReleaseDate().isBefore(startDateFilter)) {
+            if (startDateFilter != null && movie.GetReleaseDate().isBefore(startDateFilter)) {
                 return false;
             }
-            if (endDateFilter != null && movie.getReleaseDate().isAfter(endDateFilter)) {
+            if (endDateFilter != null && movie.GetReleaseDate().isAfter(endDateFilter)) {
                 return false;
             }
             // Filter by duration
-            if (durationFilter != null && movie.getDuration() != durationFilter) {
-                return false;
-            }
-            return true;
+            return durationFilter == null || movie.GetDuration() == durationFilter;
         });
 
         // Update table data with filtered data
         MovieTableView.setItems(filteredData);
         if (filteredData.size() != OriginalMovieList.size()){
-            ResetFiltersButton.setDisable(false);
+            ResetMovieFiltersButton.setDisable(false);
         }
 
     }
@@ -204,14 +193,38 @@ public class MovieAndRoomListTabController {
     }
 
     @FXML
-    private void ResetFilters() {
-        NameFilterField.clear();
-        GenderFilterComboBox.getSelectionModel().clearSelection();
-        StartDateFilterDatePicker.setValue(null);
-        EndDateFilterDatePicker.setValue(null);
-        DurationFilterField.clear();
+    private void ResetMovieFilters() {
+        MovieNameFilterField.clear();
+        MovieGenderFilterComboBox.getSelectionModel().clearSelection();
+        MovieStartDateFilterDatePicker.setValue(null);
+        MovieEndDateFilterDatePicker.setValue(null);
+        MovieDurationFilterField.clear();
         ConfigureColumns();
         MovieTableView.setItems(FXCollections.observableArrayList(OriginalMovieList));
-        ResetFiltersButton.setDisable(true);
+        ResetMovieFiltersButton.setDisable(true);
+    }
+
+    @FXML
+    private void ApplyRoomFilters() {
+        // Get data from filter
+        String nameFilter = RoomNameFilterField.getText().toLowerCase();
+        FilteredList<Room> filteredData = RoomTableView.getItems().filtered(room -> {
+            // Filter by name
+            return nameFilter.isEmpty() || room.GetName().toLowerCase().contains(nameFilter);
+        });
+
+        // Update table data with filtered data
+        RoomTableView.setItems(filteredData);
+        if (filteredData.size() != OriginalRoomList.size()){
+            ResetRoomFiltersButton.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void ResetRoomFilters() {
+        RoomNameFilterField.clear();
+        ConfigureColumns();
+        RoomTableView.setItems(FXCollections.observableArrayList(OriginalRoomList));
+        ResetRoomFiltersButton.setDisable(true);
     }
 }

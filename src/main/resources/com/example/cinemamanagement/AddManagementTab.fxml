@@ -13,7 +13,6 @@
       spacing="10"
       style="-fx-background-color: #f0f0f0; -fx-padding: 20px;">
 
-    <!-- Section Ajouter un film -->
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un film" style="-fx-font-weight: bold;"/>
         <TextField fx:id="FilmNameField" promptText="Nom du film"/>
@@ -24,20 +23,16 @@
         <Button text="Ajouter Film" onAction="#AddFilm"/>
     </VBox>
 
-    <!-- Séparateur -->
     <Separator/>
 
-    <!-- Section Ajouter un genre -->
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un genre" style="-fx-font-weight: bold;"/>
         <TextField fx:id="GenderNameField" promptText="Nom du genre"/>
         <Button text="Ajouter Genre" onAction="#AddGender"/>
     </VBox>
 
-    <!-- Séparateur -->
     <Separator/>
-
-    <!-- Section Ajouter une salle -->
+    
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter une salle" style="-fx-font-weight: bold;"/>
         <TextField fx:id="RoomNameField" promptText="Nom de la salle"/>

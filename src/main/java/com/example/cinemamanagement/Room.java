@@ -11,15 +11,15 @@ public class Room {
         this.Capacity = capacity;
     }
 
-    public int getId() {
+    public int GetId() {
         return Id;
     }
 
-    public String getName() {
+    public String GetName() {
         return Name;
     }
 
-    public int getCapacity() {
+    public int GetCapacity() {
         return Capacity;
     }
 }
