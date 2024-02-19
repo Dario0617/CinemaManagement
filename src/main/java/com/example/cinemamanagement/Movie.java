@@ -3,43 +3,43 @@ package com.example.cinemamanagement;
 import java.time.LocalDate;
 
 public class Movie {
-    private int Id;
-    private String Name;
-    private String Details;
-    private String Gender;
-    private LocalDate ReleaseDate;
-    private int Duration;
+    private int id;
+    private String name;
+    private String details;
+    private String gender;
+    private LocalDate releaseDate;
+    private int duration;
 
     public Movie(int id, String name, String details, String gender, LocalDate releaseDate, int duration) {
-        this.Id = id;
-        this.Name = name;
-        this.Details = details;
-        this.Gender = gender;
-        this.ReleaseDate = releaseDate;
-        this.Duration = duration;
+        this.id = id;
+        this.name = name;
+        this.details = details;
+        this.gender = gender;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getDetails() {
-        return Details;
+        return details;
     }
 
     public String getGender() {
-        return Gender;
+        return gender;
     }
 
     public LocalDate getReleaseDate() {
-        return ReleaseDate;
+        return releaseDate;
     }
 
     public int getDuration() {
-        return Duration;
+        return duration;
     }
 }

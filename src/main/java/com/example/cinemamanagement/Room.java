@@ -1,25 +1,33 @@
 package com.example.cinemamanagement;
 
 public class Room {
-    private int Id;
-    private String Name;
-    private int Capacity;
+    private int id;
+    private String name;
+    private int capacity;
 
     public Room(int id, String name, int capacity) {
-        this.Id = id;
-        this.Name = name;
-        this.Capacity = capacity;
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public int getCapacity() {
-        return Capacity;
+        return capacity;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 }

@@ -3,72 +3,75 @@ package com.example.cinemamanagement;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class MovieAndRoomListTabController {
-
-    @FXML
-    private TableView<Movie> MovieTableView;
+public class MovieAndRoomListTabController extends CinemaManagementController {
 
     @FXML
-    private TableView<Room> RoomTableView;
+    private TableView<Movie> movieTableView;
 
     @FXML
-    private TextField MovieNameFilterField;
+    private TableView<Room> roomTableView;
 
     @FXML
-    private ComboBox<String> MovieGenderFilterComboBox;
+    private TextField movieNameFilterField;
 
     @FXML
-    private DatePicker MovieStartDateFilterDatePicker;
+    private ComboBox<String> movieGenderFilterComboBox;
 
     @FXML
-    private DatePicker MovieEndDateFilterDatePicker;
+    private DatePicker movieStartDateFilterDatePicker;
 
     @FXML
-    private TextField MovieDurationFilterField;
+    private DatePicker movieEndDateFilterDatePicker;
 
     @FXML
-    private Button ResetMovieFiltersButton;
+    private TextField movieDurationFilterField;
 
     @FXML
-    private TextField RoomNameFilterField;
+    private Button resetMovieFiltersButton;
 
     @FXML
-    private Button ResetRoomFiltersButton;
+    private TextField roomNameFilterField;
 
-    private List<Movie> OriginalMovieList = new ArrayList<>();
-    private List<Room> OriginalRoomList = new ArrayList<>();
+    @FXML
+    private Button resetRoomFiltersButton;
+
+    private List<Movie> originalMovieList = new ArrayList<>();
+    private List<Room> originalRoomList = new ArrayList<>();
 
     @FXML
     private void initialize() {
-        ConfigureColumns();
-        LoadGenderDataAndInitializeFilter();
-        LoadMovieData();
-        LoadRoomData();
+        configureColumns();
+        loadGenderDataAndInitializeFilter();
+        loadMovieData();
+        loadRoomData();
     }
 
-    private void ConfigureColumns() {
-        TableColumn<Movie, Integer> idColumn = (TableColumn<Movie, Integer>) MovieTableView.getColumns().get(0);
-        TableColumn<Movie, String> nameColumn = (TableColumn<Movie, String>) MovieTableView.getColumns().get(1);
-        TableColumn<Movie, String> detailsColumn = (TableColumn<Movie, String>) MovieTableView.getColumns().get(2);
-        TableColumn<Movie, String> genderColumn = (TableColumn<Movie, String>) MovieTableView.getColumns().get(3);
-        TableColumn<Movie, String> dateColumn = (TableColumn<Movie, String>) MovieTableView.getColumns().get(4);
-        TableColumn<Movie, Integer> durationColumn = (TableColumn<Movie, Integer>) MovieTableView.getColumns().get(5);
-        TableColumn<Movie, Void> actionColumn = (TableColumn<Movie, Void>) MovieTableView.getColumns().get(6);
+    private void configureColumns() {
+        TableColumn<Movie, Integer> idColumn = (TableColumn<Movie, Integer>) movieTableView.getColumns().get(0);
+        TableColumn<Movie, String> nameColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(1);
+        TableColumn<Movie, String> detailsColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(2);
+        TableColumn<Movie, String> genderColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(3);
+        TableColumn<Movie, String> dateColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(4);
+        TableColumn<Movie, Integer> durationColumn = (TableColumn<Movie, Integer>) movieTableView.getColumns().get(5);
+        TableColumn<Movie, Void> actionColumn = (TableColumn<Movie, Void>) movieTableView.getColumns().get(6);
 
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Modifier");
             private final Button deleteButton = new Button("Supprimer");
-            //private final HBox buttonBox = new HBox(editButton, deleteButton);
-
             {
                 editButton.setOnAction(event -> {
                     Movie movie = getTableView().getItems().get(getIndex());
@@ -93,22 +96,33 @@ public class MovieAndRoomListTabController {
                 }
             }
         });
-        TableColumn<Room, Void> actionColumnRoom = (TableColumn<Room, Void>) RoomTableView.getColumns().get(3);
+
+        TableColumn<Room, Void> actionColumnRoom = (TableColumn<Room, Void>) roomTableView.getColumns().get(3);
         actionColumnRoom.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Modifier");
             private final Button deleteButton = new Button("Supprimer");
-            //private final HBox buttonBox = new HBox(editButton, deleteButton);
 
             {
                 editButton.setOnAction(event -> {
                     Room room = getTableView().getItems().get(getIndex());
-                    // Logique pour modifier le film
+                    roomEditPopup(room);
                 });
 
                 deleteButton.setOnAction(event -> {
                     Room room = getTableView().getItems().get(getIndex());
                     // Logique pour supprimer le film
                 });
+            }
+
+            private void roomEditPopup(Room room) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("RoomEditPopup.fxml"));
+                    Parent root = loader.load();
+                    RoomEditPopupController controller = loader.getController();
+                    controller.setRoomEditPopup(room, root);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -125,38 +139,38 @@ public class MovieAndRoomListTabController {
         });
     }
 
-    private void LoadGenderDataAndInitializeFilter() {
+    private void loadGenderDataAndInitializeFilter() {
         List<String> genders = Arrays.asList("Action", "Comédie", "Drame", "Horreur", "Science-fiction", "Thriller");
-        MovieGenderFilterComboBox.getItems().addAll(genders);
+        movieGenderFilterComboBox.getItems().addAll(genders);
     }
 
-    private void LoadMovieData() {
+    private void loadMovieData() {
         // Charger les données de votre modèle de données ici et les ajouter à la TableView
         // Remplacer cette logique par la récupération des données réelles de votre base de données ou autre source
-        OriginalMovieList.add(new Movie(1, "Film 1", "Détails 1", "Action", LocalDate.of(2024, 1, 1), 120));
-        OriginalMovieList.add(new Movie(2, "Film 2", "Détails 2", "Comédie", LocalDate.of(2024, 2, 15), 90));
-        MovieTableView.getItems().addAll(OriginalMovieList);
+        originalMovieList.add(new Movie(1, "Film 1", "Détails 1", "Action", LocalDate.of(2024, 1, 1), 120));
+        originalMovieList.add(new Movie(2, "Film 2", "Détails 2", "Comédie", LocalDate.of(2024, 2, 15), 90));
+        movieTableView.getItems().addAll(originalMovieList);
     }
 
-    private void LoadRoomData() {
+    private void loadRoomData() {
         // Charger les données de votre modèle de données ici et les ajouter à la TableView
         // Remplacer cette logique par la récupération des données réelles de votre base de données ou autre source
-        OriginalRoomList.add(new Room(1, "Salle 1", 120));
-        OriginalRoomList.add(new Room(2, "Salle 2", 50));
-        RoomTableView.getItems().addAll(OriginalRoomList);
+        originalRoomList.add(new Room(1, "Salle 1", 120));
+        originalRoomList.add(new Room(2, "Salle 2", 50));
+        roomTableView.getItems().addAll(originalRoomList);
     }
 
     @FXML
-    private void ApplyMovieFilters() {
+    private void applyMovieFilters() {
         // Get data from filter
-        String nameFilter = MovieNameFilterField.getText().toLowerCase();
-        String genderFilter = MovieGenderFilterComboBox.getValue();
-        LocalDate startDateFilter = MovieStartDateFilterDatePicker.getValue();
-        LocalDate endDateFilter = MovieEndDateFilterDatePicker.getValue();
-        Integer durationFilter = ParseDuration(MovieDurationFilterField.getText());
+        String nameFilter = movieNameFilterField.getText().toLowerCase();
+        String genderFilter = movieGenderFilterComboBox.getValue();
+        LocalDate startDateFilter = movieStartDateFilterDatePicker.getValue();
+        LocalDate endDateFilter = movieEndDateFilterDatePicker.getValue();
+        Integer durationFilter = ParseDuration(movieDurationFilterField.getText());
 
         // Filter table data from filtered data
-        FilteredList<Movie> filteredData = MovieTableView.getItems().filtered(movie -> {
+        FilteredList<Movie> filteredData = movieTableView.getItems().filtered(movie -> {
             // Filter by name
             if (!nameFilter.isEmpty() && !movie.getName().toLowerCase().contains(nameFilter)) {
                 return false;
@@ -177,9 +191,9 @@ public class MovieAndRoomListTabController {
         });
 
         // Update table data with filtered data
-        MovieTableView.setItems(filteredData);
-        if (filteredData.size() != OriginalMovieList.size()){
-            ResetMovieFiltersButton.setDisable(false);
+        movieTableView.setItems(filteredData);
+        if (filteredData.size() != originalMovieList.size()){
+            resetMovieFiltersButton.setDisable(false);
         }
 
     }
@@ -193,38 +207,38 @@ public class MovieAndRoomListTabController {
     }
 
     @FXML
-    private void ResetMovieFilters() {
-        MovieNameFilterField.clear();
-        MovieGenderFilterComboBox.getSelectionModel().clearSelection();
-        MovieStartDateFilterDatePicker.setValue(null);
-        MovieEndDateFilterDatePicker.setValue(null);
-        MovieDurationFilterField.clear();
-        ConfigureColumns();
-        MovieTableView.setItems(FXCollections.observableArrayList(OriginalMovieList));
-        ResetMovieFiltersButton.setDisable(true);
+    private void resetMovieFilters() {
+        movieNameFilterField.clear();
+        movieGenderFilterComboBox.getSelectionModel().clearSelection();
+        movieStartDateFilterDatePicker.setValue(null);
+        movieEndDateFilterDatePicker.setValue(null);
+        movieDurationFilterField.clear();
+        configureColumns();
+        movieTableView.setItems(FXCollections.observableArrayList(originalMovieList));
+        resetMovieFiltersButton.setDisable(true);
     }
 
     @FXML
-    private void ApplyRoomFilters() {
+    private void applyRoomFilters() {
         // Get data from filter
-        String nameFilter = RoomNameFilterField.getText().toLowerCase();
-        FilteredList<Room> filteredData = RoomTableView.getItems().filtered(room -> {
+        String nameFilter = roomNameFilterField.getText().toLowerCase();
+        FilteredList<Room> filteredData = roomTableView.getItems().filtered(room -> {
             // Filter by name
             return nameFilter.isEmpty() || room.getName().toLowerCase().contains(nameFilter);
         });
 
         // Update table data with filtered data
-        RoomTableView.setItems(filteredData);
-        if (filteredData.size() != OriginalRoomList.size()){
-            ResetRoomFiltersButton.setDisable(false);
+        roomTableView.setItems(filteredData);
+        if (filteredData.size() != originalRoomList.size()){
+            resetRoomFiltersButton.setDisable(false);
         }
     }
 
     @FXML
-    private void ResetRoomFilters() {
-        RoomNameFilterField.clear();
-        ConfigureColumns();
-        RoomTableView.setItems(FXCollections.observableArrayList(OriginalRoomList));
-        ResetRoomFiltersButton.setDisable(true);
+    private void resetRoomFilters() {
+        roomNameFilterField.clear();
+        configureColumns();
+        roomTableView.setItems(FXCollections.observableArrayList(originalRoomList));
+        resetRoomFiltersButton.setDisable(true);
     }
 }

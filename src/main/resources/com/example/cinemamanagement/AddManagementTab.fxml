@@ -15,29 +15,29 @@
 
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un film" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="FilmNameField" promptText="Nom du film"/>
-        <TextField fx:id="YearField" promptText="Année de sortie"/>
-        <ComboBox fx:id="GenderComboBox" promptText="Genre"/>
-        <TextField fx:id="DetailsField" promptText="Détails"/>
-        <TextField fx:id="DurationField" promptText="Durée"/>
-        <Button text="Ajouter Film" onAction="#AddFilm"/>
+        <TextField fx:id="filmNameField" promptText="Nom du film"/>
+        <TextField fx:id="yearField" promptText="Année de sortie"/>
+        <ComboBox fx:id="genderComboBox" promptText="Genre"/>
+        <TextField fx:id="detailsField" promptText="Détails"/>
+        <TextField fx:id="durationField" promptText="Durée"/>
+        <Button text="Ajouter Film" onAction="#addFilm"/>
     </VBox>
 
     <Separator/>
 
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un genre" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="GenderNameField" promptText="Nom du genre"/>
-        <Button text="Ajouter Genre" onAction="#AddGender"/>
+        <TextField fx:id="genderNameField" promptText="Nom du genre"/>
+        <Button text="Ajouter Genre" onAction="#addGender"/>
     </VBox>
 
     <Separator/>
     
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter une salle" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="RoomNameField" promptText="Nom de la salle"/>
-        <TextField fx:id="CapacityField" promptText="Capacité assises"/>
-        <Button text="Ajouter Salle" onAction="#AddRoom"/>
+        <TextField fx:id="roomNameField" promptText="Nom de la salle"/>
+        <TextField fx:id="capacityField" promptText="Capacité assises"/>
+        <Button text="Ajouter Salle" onAction="#addRoom"/>
     </VBox>
 
 </VBox>

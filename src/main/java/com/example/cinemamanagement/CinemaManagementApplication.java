@@ -14,17 +14,9 @@ public class CinemaManagementApplication extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("CinemaManagement.fxml"));
         primaryStage.setTitle("Gestion de cinéma");
 
-        // Obtenir les dimensions de l'écran principal
-        Screen screen = Screen.getPrimary();
-        double screenWidth = screen.getBounds().getWidth();
-        double screenHeight = screen.getBounds().getHeight();
+        double[] screenSize = CinemaManagementController.setScreenSize(0.6, 0.6);
 
-        // Calculer la taille de la fenêtre en laissant un espace en haut pour la barre de titre
-        double windowHeight = screenHeight * 0.6;
-        double windowWidth = screenWidth * 0.6;
-
-        // Définir la taille de la fenêtre
-        primaryStage.setScene(new Scene(root, windowWidth, windowHeight));
+        primaryStage.setScene(new Scene(root, screenSize[1], screenSize[0]));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
