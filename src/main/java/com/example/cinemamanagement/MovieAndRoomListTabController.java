@@ -75,13 +75,29 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
             {
                 editButton.setOnAction(event -> {
                     Movie movie = getTableView().getItems().get(getIndex());
-                    // Logique pour modifier le film
+                    movieEditPopup(movie);
                 });
 
                 deleteButton.setOnAction(event -> {
                     Movie movie = getTableView().getItems().get(getIndex());
                     // Logique pour supprimer le film
+                    originalMovieList.remove(movie);
+                    movieTableView.setItems(FXCollections.observableArrayList(originalMovieList));
+                    showAlert("Film supprimé", "Le film \"" + movie.getName() + "\" a été supprimé avec succès !",
+                            Alert.AlertType.INFORMATION);
                 });
+            }
+
+            private void movieEditPopup(Movie movie) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("MovieEditPopup.fxml"));
+                    Parent root = loader.load();
+                    MovieEditPopupController controller = loader.getController();
+                    controller.setMovieEditPopup(movie, root);
+                    //GetMovie and Refresh table
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -111,6 +127,11 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                 deleteButton.setOnAction(event -> {
                     Room room = getTableView().getItems().get(getIndex());
                     // Logique pour supprimer le film
+
+                    originalRoomList.remove(room);
+                    roomTableView.setItems(FXCollections.observableArrayList(originalRoomList));
+                    showAlert("Salle supprimé", "La salle \"" + room.getName() + "\" a été supprimé avec succès !",
+                            Alert.AlertType.INFORMATION);
                 });
             }
 
@@ -120,6 +141,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                     Parent root = loader.load();
                     RoomEditPopupController controller = loader.getController();
                     controller.setRoomEditPopup(room, root);
+                    //GetRoom and Refresh table
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -145,16 +167,14 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     }
 
     private void loadMovieData() {
-        // Charger les données de votre modèle de données ici et les ajouter à la TableView
-        // Remplacer cette logique par la récupération des données réelles de votre base de données ou autre source
+        // BDD GetMovies
         originalMovieList.add(new Movie(1, "Film 1", "Détails 1", "Action", LocalDate.of(2024, 1, 1), 120));
         originalMovieList.add(new Movie(2, "Film 2", "Détails 2", "Comédie", LocalDate.of(2024, 2, 15), 90));
         movieTableView.getItems().addAll(originalMovieList);
     }
 
     private void loadRoomData() {
-        // Charger les données de votre modèle de données ici et les ajouter à la TableView
-        // Remplacer cette logique par la récupération des données réelles de votre base de données ou autre source
+        // BDD GetRooms
         originalRoomList.add(new Room(1, "Salle 1", 120));
         originalRoomList.add(new Room(2, "Salle 2", 50));
         roomTableView.getItems().addAll(originalRoomList);

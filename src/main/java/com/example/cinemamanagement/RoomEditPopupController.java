@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.stage.Screen;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class RoomEditPopupController extends CinemaManagementController {
@@ -28,6 +28,7 @@ public class RoomEditPopupController extends CinemaManagementController {
         stage = new Stage();
         stage.setScene(new Scene(root, screenSize[1], screenSize[0]));
         stage.setTitle("Modifier la salle");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
@@ -36,7 +37,10 @@ public class RoomEditPopupController extends CinemaManagementController {
         roomToEdit.setName(roomNameField.getText());
         roomToEdit.setCapacity(Integer.parseInt(capacityField.getText()));
         stage.close();
-        showAlert("Salle modifié", "La salle \"" + roomToEdit.getName() + "\" a été ajoutée avec succès !",
+
+        //Update BDD
+
+        showAlert("Salle modifié", "La salle \"" + roomToEdit.getName() + "\" a été modifié avec succès !",
                 Alert.AlertType.INFORMATION);
     }
 }

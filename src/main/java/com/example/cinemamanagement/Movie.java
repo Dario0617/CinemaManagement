@@ -42,4 +42,28 @@ public class Movie {
     public int getDuration() {
         return duration;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

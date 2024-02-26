@@ -4,8 +4,6 @@ module com.example.cinemamanagement {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
-    requires jfxtras.agenda;
-    requires jfxtras.icalendarfx;
     requires java.sql;
 
     opens com.example.cinemamanagement to javafx.fxml;
