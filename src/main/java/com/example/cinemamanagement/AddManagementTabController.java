@@ -50,10 +50,6 @@ public class AddManagementTabController extends CinemaManagementController {
 
         showAlert("Film ajouté", "Le film \"" + filmName + "\" a été ajouté avec succès !",
                 Alert.AlertType.INFORMATION);
-        clearFields();
-    }
-
-    private void clearFields() {
         filmNameField.clear();
         yearField.clear();
         genderComboBox.getSelectionModel().clearSelection();

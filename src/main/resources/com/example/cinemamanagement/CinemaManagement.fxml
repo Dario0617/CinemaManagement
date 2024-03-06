@@ -10,6 +10,11 @@
     <center>
         <TabPane fx:id="tabPane">
             <tabs>
+                <Tab text="Planning" closable="false">
+                    <content>
+                        <fx:include source="ScheduleTab.fxml" />
+                    </content>
+                </Tab>
                 <Tab text="Liste des films / Salles" closable="false">
                     <content>
                         <fx:include source="MovieAndRoomListTab.fxml" />

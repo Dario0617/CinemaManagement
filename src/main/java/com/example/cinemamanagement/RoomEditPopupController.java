@@ -33,7 +33,7 @@ public class RoomEditPopupController extends CinemaManagementController {
     }
 
     @FXML
-    private void saveRoom() {
+    private void updateRoom() {
         roomToEdit.setName(roomNameField.getText());
         roomToEdit.setCapacity(Integer.parseInt(capacityField.getText()));
         stage.close();

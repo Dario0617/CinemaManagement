@@ -47,7 +47,7 @@ public class MovieEditPopupController extends CinemaManagementController {
     }
 
     @FXML
-    private void saveMovie() {
+    private void updateMovie() {
         movieToEdit.setName(movieNameField.getText());
         movieToEdit.setDetails(movieDetailsField.getText());
         movieToEdit.setGender(movieGenderComboBox.getValue());

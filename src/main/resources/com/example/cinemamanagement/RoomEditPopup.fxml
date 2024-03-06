@@ -16,5 +16,5 @@
     <Label text="Capacité"/>
     <TextField fx:id="capacityField"/>
 
-    <Button text="Enregistrer" onAction="#saveRoom"/>
+    <Button text="Enregistrer" onAction="#updateRoom"/>
 </VBox>
