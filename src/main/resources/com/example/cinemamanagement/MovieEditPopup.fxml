@@ -9,7 +9,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cinemamanagement.MovieEditPopupController"
+      fx:controller="controllers.MovieEditPopupController"
       spacing="10" alignment="CENTER">
 
     <Label text="Nom du film"/>
@@ -21,7 +21,7 @@
     <Label text="Genre"/>
     <ComboBox fx:id="movieGenderComboBox"/>
 
-    <Label text="Année de sortie"/>
+    <Label text="Date de sortie"/>
     <DatePicker fx:id="movieYearDatePicker"/>
 
     <Label text="Durée (minutes)"/>

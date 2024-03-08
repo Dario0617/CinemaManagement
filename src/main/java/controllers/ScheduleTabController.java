@@ -1,4 +1,4 @@
-package com.example.cinemamanagement;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +56,6 @@ public class ScheduleTabController {
                         Parent root = loader.load();
                         ScheduleAddSlotPopupController controller = loader.getController();
                         controller.setScheduleAddSlotPopup("Salle " + vBoxColumn, vBoxRow-1 , root);
-                        //GetMovie and Refresh table
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

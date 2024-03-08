@@ -7,7 +7,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cinemamanagement.ScheduleAddSlotPopupController"
+      fx:controller="controllers.ScheduleAddSlotPopupController"
       spacing="10" alignment="CENTER">
 
     <Label text="Choisir le film :"/>

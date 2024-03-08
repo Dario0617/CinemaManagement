@@ -6,9 +6,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.DatePicker?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cinemamanagement.AddManagementTabController"
+      fx:controller="controllers.AddManagementTabController"
       alignment="TOP_CENTER"
       spacing="10"
       style="-fx-background-color: #f0f0f0; -fx-padding: 20px;">
@@ -16,7 +17,7 @@
     <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
         <Label text="Ajouter un film" style="-fx-font-weight: bold;"/>
         <TextField fx:id="filmNameField" promptText="Nom du film"/>
-        <TextField fx:id="yearField" promptText="Année de sortie"/>
+        <DatePicker fx:id="movieReleaseDatePicker" promptText="Date de sortie"/>
         <ComboBox fx:id="genderComboBox" promptText="Genre"/>
         <TextField fx:id="detailsField" promptText="Détails"/>
         <TextField fx:id="durationField" promptText="Durée (minutes)"/>

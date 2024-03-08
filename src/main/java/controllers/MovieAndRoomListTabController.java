@@ -1,21 +1,23 @@
-package com.example.cinemamanagement;
+package controllers;
 
+import classes.Movie;
+import classes.Room;
+import dataBaseSQL.MovieSQL;
+import dataBaseSQL.RoomSQL;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class MovieAndRoomListTabController extends CinemaManagementController {
 
@@ -50,6 +52,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     private Button resetRoomFiltersButton;
 
     private List<Movie> originalMovieList = new ArrayList<>();
+
     private List<Room> originalRoomList = new ArrayList<>();
 
     @FXML
@@ -80,11 +83,15 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
                 deleteButton.setOnAction(event -> {
                     Movie movie = getTableView().getItems().get(getIndex());
-                    // Logique pour supprimer le film
+                    SQLException exception = MovieSQL.DeleteMovie(movie);
                     originalMovieList.remove(movie);
                     movieTableView.setItems(FXCollections.observableArrayList(originalMovieList));
-                    showAlert("Film supprimé", "Le film \"" + movie.getName() + "\" a été supprimé avec succès !",
-                            Alert.AlertType.INFORMATION);
+                    if (exception != null){
+                        showDefaultErrorAlert(" lors de la suppression du film", exception);
+                    } else {
+                        showAlert("Film supprimé", "Le film \"" + movie.getName() + "\" a été supprimé avec succès !",
+                                Alert.AlertType.INFORMATION);
+                    }
                 });
             }
 
@@ -107,7 +114,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                     setGraphic(null);
                 } else {
                     VBox buttonBox = new VBox(editButton, deleteButton);
-                    buttonBox.setSpacing(5); // Espacement entre les boutons
+                    buttonBox.setSpacing(5);
                     setGraphic(buttonBox);
                 }
             }
@@ -126,12 +133,15 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
                 deleteButton.setOnAction(event -> {
                     Room room = getTableView().getItems().get(getIndex());
-                    // Logique pour supprimer le film
-
+                    SQLException exception = RoomSQL.DeleteRoom(room);
                     originalRoomList.remove(room);
                     roomTableView.setItems(FXCollections.observableArrayList(originalRoomList));
-                    showAlert("Salle supprimé", "La salle \"" + room.getName() + "\" a été supprimé avec succès !",
-                            Alert.AlertType.INFORMATION);
+                    if (exception != null){
+                        showDefaultErrorAlert(" lors de la suppression de la salle", exception);
+                    } else {
+                        showAlert("Salle supprimé", "La salle \"" + room.getName() + "\" a été supprimé avec succès !",
+                                Alert.AlertType.INFORMATION);
+                    }
                 });
             }
 
@@ -154,7 +164,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                     setGraphic(null);
                 } else {
                     VBox buttonBox = new VBox(editButton, deleteButton);
-                    buttonBox.setSpacing(5); // Espacement entre les boutons
+                    buttonBox.setSpacing(5);
                     setGraphic(buttonBox);
                 }
             }
@@ -162,22 +172,23 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     }
 
     private void loadGenderDataAndInitializeFilter() {
-        List<String> genders = Arrays.asList("Action", "Comédie", "Drame", "Horreur", "Science-fiction", "Thriller");
-        movieGenderFilterComboBox.getItems().addAll(genders);
+        movieGenderFilterComboBox.setItems(FXCollections.observableArrayList(CinemaManagementController.genderNames));
     }
 
     private void loadMovieData() {
-        // BDD GetMovies
-        originalMovieList.add(new Movie(1, "Film 1", "Détails 1", "Action", LocalDate.of(2024, 1, 1), 120));
-        originalMovieList.add(new Movie(2, "Film 2", "Détails 2", "Comédie", LocalDate.of(2024, 2, 15), 90));
-        movieTableView.getItems().addAll(originalMovieList);
+        List<Movie> movies = MovieSQL.GetMovies();
+        if (!movies.isEmpty()){
+            originalMovieList.addAll(movies);
+        }
+        movieTableView.setItems(FXCollections.observableArrayList(originalMovieList));
     }
 
     private void loadRoomData() {
-        // BDD GetRooms
-        originalRoomList.add(new Room(1, "Salle 1", 120));
-        originalRoomList.add(new Room(2, "Salle 2", 50));
-        roomTableView.getItems().addAll(originalRoomList);
+        List<Room> rooms = RoomSQL.GetRooms();
+        if (!rooms.isEmpty()){
+            originalRoomList.addAll(rooms);
+        }
+        roomTableView.setItems(FXCollections.observableArrayList(originalRoomList));
     }
 
     @FXML
@@ -200,10 +211,10 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                 return false;
             }
             // Filter by date
-            if (startDateFilter != null && movie.getReleaseDate().isBefore(startDateFilter)) {
+            if (startDateFilter != null && movie.getReleaseDate().toLocalDate().isBefore(startDateFilter)) {
                 return false;
             }
-            if (endDateFilter != null && movie.getReleaseDate().isAfter(endDateFilter)) {
+            if (endDateFilter != null && movie.getReleaseDate().toLocalDate().isAfter(endDateFilter)) {
                 return false;
             }
             // Filter by duration
@@ -215,7 +226,6 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
         if (filteredData.size() != originalMovieList.size()){
             resetMovieFiltersButton.setDisable(false);
         }
-
     }
 
     private Integer ParseDuration(String durationString) {

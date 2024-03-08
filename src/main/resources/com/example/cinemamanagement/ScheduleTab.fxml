@@ -9,7 +9,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.cinemamanagement.ScheduleTabController">
+            fx:controller="controllers.ScheduleTabController">
 
     <center>
         <GridPane fx:id="scheduleGridPane" gridLinesVisible="true">

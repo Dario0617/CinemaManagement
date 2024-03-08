@@ -1,16 +1,16 @@
-package com.example.cinemamanagement;
+package classes;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Movie {
     private int id;
     private String name;
     private String details;
     private String gender;
-    private LocalDate releaseDate;
+    private Date releaseDate;
     private int duration;
 
-    public Movie(int id, String name, String details, String gender, LocalDate releaseDate, int duration) {
+    public Movie(int id, String name, String details, String gender, Date releaseDate, int duration) {
         this.id = id;
         this.name = name;
         this.details = details;
@@ -35,7 +35,7 @@ public class Movie {
         return gender;
     }
 
-    public LocalDate getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
@@ -59,7 +59,7 @@ public class Movie {
         this.gender = gender;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

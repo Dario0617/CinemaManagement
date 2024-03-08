@@ -1,5 +1,7 @@
-package com.example.cinemamanagement;
+package controllers;
 
+import classes.Room;
+import dataBaseSQL.RoomSQL;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 
 public class RoomEditPopupController extends CinemaManagementController {
 
@@ -38,9 +42,12 @@ public class RoomEditPopupController extends CinemaManagementController {
         roomToEdit.setCapacity(Integer.parseInt(capacityField.getText()));
         stage.close();
 
-        //Update BDD
-
-        showAlert("Salle modifié", "La salle \"" + roomToEdit.getName() + "\" a été modifié avec succès !",
-                Alert.AlertType.INFORMATION);
+        SQLException exception = RoomSQL.UpdateRoom(roomToEdit);
+        if (exception != null){
+            showDefaultErrorAlert(" lors de la modification de la salle", exception);
+        } else {
+            showAlert("Salle modifié", "La salle \"" + roomToEdit.getName() + "\" a été modifié avec succès !",
+                    Alert.AlertType.INFORMATION);
+        }
     }
 }

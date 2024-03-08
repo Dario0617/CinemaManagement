@@ -1,4 +1,4 @@
-package com.example.cinemamanagement;
+package classes;
 
 public class Room {
     private int id;
@@ -7,6 +7,11 @@ public class Room {
 
     public Room(int id, String name, int capacity) {
         this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public Room(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
     }

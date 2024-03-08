@@ -19,7 +19,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.cinemamanagement.MovieAndRoomListTabController">
+            fx:controller="controllers.MovieAndRoomListTabController">
 
     <top>
         <VBox spacing="5" style="-fx-padding: 10px; -fx-background-color: #f0f0f0;">

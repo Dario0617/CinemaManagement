@@ -1,5 +1,7 @@
-package com.example.cinemamanagement;
+package controllers;
 
+import classes.Movie;
+import dataBaseSQL.MovieSQL;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,6 +11,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class MovieEditPopupController extends CinemaManagementController {
 
@@ -36,7 +41,7 @@ public class MovieEditPopupController extends CinemaManagementController {
         movieNameField.setText(movie.getName());
         movieDetailsField.setText(movie.getDetails());
         movieGenderComboBox.setValue(movie.getGender());
-        movieYearDatePicker.setValue(movie.getReleaseDate());
+        movieYearDatePicker.setValue(movie.getReleaseDate().toLocalDate());
         movieDurationField.setText(Integer.toString(movie.getDuration()));
         double[] screenSize = CinemaManagementController.setScreenSize(0.4, 0.4);
         stage = new Stage();
@@ -51,14 +56,18 @@ public class MovieEditPopupController extends CinemaManagementController {
         movieToEdit.setName(movieNameField.getText());
         movieToEdit.setDetails(movieDetailsField.getText());
         movieToEdit.setGender(movieGenderComboBox.getValue());
-        movieToEdit.setReleaseDate(movieYearDatePicker.getValue());
+        movieToEdit.setReleaseDate(Date.valueOf(movieYearDatePicker.getValue()));
         movieToEdit.setDuration(Integer.parseInt(movieDurationField.getText()));
 
         stage.close();
 
-        //Update BDD
-
-        showAlert("Film modifié", "Le film \"" + movieToEdit.getName() + "\" a été modifié avec succès !",
-                Alert.AlertType.INFORMATION);
+        SQLException exception =
+                MovieSQL.UpdateMovie(movieToEdit, CinemaManagementController.genderIds.get(movieToEdit.getGender()));
+        if (exception != null){
+            showDefaultErrorAlert(" lors de la modification du film", exception);
+        } else {
+            showAlert("Film modifié", "Le film \"" + movieToEdit.getName() + "\" a été modifié avec succès !",
+                    Alert.AlertType.INFORMATION);
+        }
     }
 }
