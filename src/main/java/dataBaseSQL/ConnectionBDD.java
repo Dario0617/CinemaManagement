@@ -11,7 +11,8 @@ public class ConnectionBDD {
         Connection conn = null;
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://51.178.86.117:17622/dario_3", "dario", "dab3oeP-");
+            //conn = DriverManager.getConnection("jdbc:mysql://51.178.86.117:8087/dario_3", "dario", "dab3oeP-");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/dario_3", "root", "");
         } catch (SQLException ex) {
             //Handle any errors
             System.out.println("SQLException : " +ex.getMessage());

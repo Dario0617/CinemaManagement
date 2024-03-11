@@ -1,9 +1,13 @@
 package controllers;
 
+import classes.Gender;
+import classes.Movie;
 import classes.Room;
+import dataBaseSQL.GenderSQL;
 import dataBaseSQL.MovieSQL;
 import dataBaseSQL.RoomSQL;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -42,10 +46,21 @@ public class AddManagementTabController extends CinemaManagementController {
     @FXML
     private TextField capacityField;
 
+    static ObservableMap<String, Integer> genderIds = FXCollections.observableHashMap();
+
+    static List<String>  genderNames = new ArrayList<>();
+
     @FXML
     private void initialize() {
-        genderNames.add("Action");
-        genderComboBox.setItems(FXCollections.observableArrayList(CinemaManagementController.genderNames));
+        genderComboBox.setOnMouseClicked(mouseEvent -> {
+            genderNames = new ArrayList<>();
+            List<Gender> genders = GenderSQL.GetGenders();
+            for (Gender gender: genders) {
+                genderNames.add(gender.getName());
+                genderIds.put(gender.getName(), gender.getId());
+            }
+            genderComboBox.setItems(FXCollections.observableArrayList(genderNames));
+        });
     }
 
     @FXML
@@ -90,6 +105,10 @@ public class AddManagementTabController extends CinemaManagementController {
             showDefaultErrorAlert(" lors de la création du film", exception);
         }
 
+        List<Movie> movies = MovieSQL.GetMovies();
+        MovieAndRoomListTabController.originalMovieList.clear();
+        MovieAndRoomListTabController.originalMovieList.addAll(movies);
+
         filmNameField.clear();
         movieReleaseDatePicker.setValue(null);
         genderComboBox.getSelectionModel().clearSelection();
@@ -105,13 +124,13 @@ public class AddManagementTabController extends CinemaManagementController {
             return;
         }
 
-//        SQLException exception = GenderSQL.AddGender(name);
-//        if (exception == null){
-//            showAlert("Genre ajouté", "Le genre \"" + name + "\" a été ajouté avec succès !",
-//                    Alert.AlertType.INFORMATION);
-//        } else{
-//            showDefaultErrorAlert(" lors de la création du genre", exception);
-//        }
+        SQLException exception = GenderSQL.AddGender(name);
+        if (exception == null){
+            showAlert("Genre ajouté", "Le genre \"" + name + "\" a été ajouté avec succès !",
+                    Alert.AlertType.INFORMATION);
+        } else{
+            showDefaultErrorAlert(" lors de la création du genre", exception);
+        }
         genderNameField.clear();
     }
 
@@ -138,6 +157,10 @@ public class AddManagementTabController extends CinemaManagementController {
         } else{
             showDefaultErrorAlert(" lors de la création de la salle", exception);
         }
+
+        List<Room> rooms = RoomSQL.GetRooms();
+        MovieAndRoomListTabController.originalRoomList.clear();
+        MovieAndRoomListTabController.originalRoomList.addAll(rooms);
 
         roomNameField.clear();
         capacityField.clear();

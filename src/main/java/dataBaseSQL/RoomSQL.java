@@ -11,11 +11,11 @@ public class RoomSQL {
     static Connection connection = ConnectionBDD.ConnectionBDD();
 
     public static SQLException AddRoom(Room room){
-        String sql = "INSERT INTO Movie (`Name`, `Capacity`) " + "VALUES (?,?)";
+        String sql = "INSERT INTO Room (`Name`, `Capacity`) VALUES (?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, room.getName());
-            preparedStatement.setInt(5, room.getCapacity());
+            preparedStatement.setInt(2, room.getCapacity());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("SQLException : " +ex.getMessage());

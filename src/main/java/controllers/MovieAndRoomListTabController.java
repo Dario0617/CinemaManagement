@@ -1,10 +1,13 @@
 package controllers;
 
+import classes.Gender;
 import classes.Movie;
 import classes.Room;
+import dataBaseSQL.GenderSQL;
 import dataBaseSQL.MovieSQL;
 import dataBaseSQL.RoomSQL;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,9 +54,13 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     @FXML
     private Button resetRoomFiltersButton;
 
-    private List<Movie> originalMovieList = new ArrayList<>();
+    public static List<Movie> originalMovieList = new ArrayList<>();
 
-    private List<Room> originalRoomList = new ArrayList<>();
+    public static List<Room> originalRoomList = new ArrayList<>();
+
+    static ObservableMap<String, Integer> genderIds = FXCollections.observableHashMap();
+
+    static List<String>  genderNames = new ArrayList<>();
 
     @FXML
     private void initialize() {
@@ -97,11 +104,10 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
             private void movieEditPopup(Movie movie) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("MovieEditPopup.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/MovieEditPopup.fxml"));
                     Parent root = loader.load();
                     MovieEditPopupController controller = loader.getController();
                     controller.setMovieEditPopup(movie, root);
-                    //GetMovie and Refresh table
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -147,11 +153,10 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
             private void roomEditPopup(Room room) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("RoomEditPopup.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/RoomEditPopup.fxml"));
                     Parent root = loader.load();
                     RoomEditPopupController controller = loader.getController();
                     controller.setRoomEditPopup(room, root);
-                    //GetRoom and Refresh table
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -172,7 +177,15 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     }
 
     private void loadGenderDataAndInitializeFilter() {
-        movieGenderFilterComboBox.setItems(FXCollections.observableArrayList(CinemaManagementController.genderNames));
+        movieGenderFilterComboBox.setOnMouseClicked(mouseEvent -> {
+            genderNames = new ArrayList<>();
+            List<Gender> genders = GenderSQL.GetGenders();
+            for (Gender gender: genders) {
+                genderNames.add(gender.getName());
+                genderIds.put(gender.getName(), gender.getId());
+            }
+            movieGenderFilterComboBox.setItems(FXCollections.observableArrayList(genderNames));
+        });
     }
 
     private void loadMovieData() {

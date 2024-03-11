@@ -13,7 +13,6 @@ public class CinemaManagementApplication extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("CinemaManagement.fxml"));
         primaryStage.setTitle("Gestion de cinéma");
         double[] screenSize = CinemaManagementController.setScreenSize(0.6, 0.6);
-        CinemaManagementController.loadGender();
         primaryStage.setScene(new Scene(root, screenSize[1], screenSize[0]));
         primaryStage.setMaximized(true);
         primaryStage.show();

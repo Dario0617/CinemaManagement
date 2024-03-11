@@ -1,7 +1,11 @@
 package controllers;
 
+import classes.Gender;
 import classes.Movie;
+import dataBaseSQL.GenderSQL;
 import dataBaseSQL.MovieSQL;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieEditPopupController extends CinemaManagementController {
 
@@ -36,11 +42,24 @@ public class MovieEditPopupController extends CinemaManagementController {
 
     private Movie movieToEdit;
 
+    static List<String>  genderNames = new ArrayList<>();
+
+    static ObservableMap<String, Integer> genderIds = FXCollections.observableHashMap();
+
     public void setMovieEditPopup(Movie movie, Parent root) {
         this.movieToEdit = movie;
         movieNameField.setText(movie.getName());
         movieDetailsField.setText(movie.getDetails());
+
+        genderNames = new ArrayList<>();
+        List<Gender> genders = GenderSQL.GetGenders();
+        for (Gender gender: genders) {
+            genderNames.add(gender.getName());
+            genderIds.put(gender.getName(), gender.getId());
+        }
+        movieGenderComboBox.setItems(FXCollections.observableArrayList(genderNames));
         movieGenderComboBox.setValue(movie.getGender());
+
         movieYearDatePicker.setValue(movie.getReleaseDate().toLocalDate());
         movieDurationField.setText(Integer.toString(movie.getDuration()));
         double[] screenSize = CinemaManagementController.setScreenSize(0.4, 0.4);
@@ -60,9 +79,12 @@ public class MovieEditPopupController extends CinemaManagementController {
         movieToEdit.setDuration(Integer.parseInt(movieDurationField.getText()));
 
         stage.close();
-
+        List<Gender> genders = GenderSQL.GetGenders();
+        for (Gender gender: genders) {
+            genderIds.put(gender.getName(), gender.getId());
+        }
         SQLException exception =
-                MovieSQL.UpdateMovie(movieToEdit, CinemaManagementController.genderIds.get(movieToEdit.getGender()));
+                MovieSQL.UpdateMovie(movieToEdit, genderIds.get(movieToEdit.getGender()));
         if (exception != null){
             showDefaultErrorAlert(" lors de la modification du film", exception);
         } else {

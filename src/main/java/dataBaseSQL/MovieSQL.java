@@ -55,7 +55,7 @@ public class MovieSQL {
     }
 
     public static Movie GetMovieByIdForDisplay(int movieId){
-        String sql = "SELECT * FROM Movie INNER JOIN Gender ON Movie.GenderId = Gender.Id WHERE Id = ? ";
+        String sql = "SELECT * FROM Movie INNER JOIN Gender ON Movie.GenderId = Gender.Id WHERE Movie.Id = ? ";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, movieId);

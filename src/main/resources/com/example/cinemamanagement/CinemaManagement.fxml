@@ -10,17 +10,17 @@
     <center>
         <TabPane fx:id="tabPane">
             <tabs>
-                <Tab text="Planning" closable="false">
+                <Tab closable="false" text="Planning">
                     <content>
                         <fx:include source="ScheduleTab.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Liste des films / Salles" closable="false">
+                <Tab closable="false" onSelectionChanged="#movieAndRoomList" text="Liste des films / Salles">
                     <content>
                         <fx:include source="MovieAndRoomListTab.fxml" />
                     </content>
                 </Tab>
-                <Tab text="Ajouter" closable="false">
+                <Tab closable="false" text="Ajouter">
                     <fx:include source="AddManagementTab.fxml" />
                 </Tab>
             </tabs>
