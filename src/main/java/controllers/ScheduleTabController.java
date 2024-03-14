@@ -1,8 +1,11 @@
 package controllers;
 
+import classes.Price;
 import classes.Room;
 import classes.Slot;
+import dataBaseSQL.PriceSQL;
 import dataBaseSQL.RoomSQL;
+import dataBaseSQL.SlotPricingSQL;
 import dataBaseSQL.SlotSQL;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,11 +14,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScheduleTabController extends CinemaManagementController {
@@ -77,6 +82,17 @@ public class ScheduleTabController extends CinemaManagementController {
                     columnIndex =  rooms.indexOf(room);
                 }
             }
+            HashMap<Integer, Integer> slotPricing = SlotPricingSQL.GetSlotPricing(slot.getId());
+            int seatOccupied = 0;
+            for (Price price: PriceSQL.GetPricing()) {
+                int initialValue = 0;
+                if (!slotPricing.isEmpty()) {
+                    initialValue = slotPricing.get(price.getId());
+                }
+                seatOccupied += initialValue;
+            }
+            int seatAvailable = slot.getRoom().getCapacity() - seatOccupied;
+            textLabel += " | " + seatAvailable + " places disponibles";
             if (columnIndex == -1){
                 showDefaultErrorAlert("", null);
                 return;
