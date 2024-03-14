@@ -70,7 +70,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     }
 
     public void configureColumns() {
-        TableColumn<Movie, Void> actionColumn = (TableColumn<Movie, Void>) movieTableView.getColumns().get(6);
+        TableColumn<Movie, Void> actionColumn = (TableColumn<Movie, Void>) movieTableView.getColumns().get(7);
 
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Modifier");
@@ -119,7 +119,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
             }
         });
 
-        TableColumn<Room, Void> actionColumnRoom = (TableColumn<Room, Void>) roomTableView.getColumns().get(3);
+        TableColumn<Room, Void> actionColumnRoom = (TableColumn<Room, Void>) roomTableView.getColumns().get(4);
         actionColumnRoom.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Modifier");
             private final Button deleteButton = new Button("Supprimer");

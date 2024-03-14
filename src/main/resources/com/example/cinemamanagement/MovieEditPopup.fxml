@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextArea?>
 
+<?import javafx.scene.control.ColorPicker?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.MovieEditPopupController"
@@ -27,6 +28,9 @@
 
     <Label text="Durée (minutes) *"/>
     <TextField fx:id="movieDurationField"/>
+
+    <Label text="Couleur du film"/>
+    <ColorPicker fx:id="colorPicker"/>
 
     <Button text="Enregistrer" onAction="#updateMovie"/>
 </VBox>

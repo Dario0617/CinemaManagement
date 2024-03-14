@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.event.Event;
 import javafx.scene.control.Alert;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 import java.io.IOException;
@@ -43,5 +44,12 @@ public class CinemaManagementController {
 //        controller.loadGenderDataAndInitializeFilter();
 //        controller.loadMovieData();
 //        controller.loadRoomData();
+    }
+
+    public static String decodeColorInHex(Color color){
+        return String.format( "#%02X%02X%02X",
+                (int)( color.getRed() * 255 ),
+                (int)( color.getGreen() * 255 ),
+                (int)( color.getBlue() * 255 ) );
     }
 }

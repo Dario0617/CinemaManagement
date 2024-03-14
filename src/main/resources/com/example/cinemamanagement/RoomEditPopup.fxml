@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ColorPicker?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -15,6 +16,9 @@
 
     <Label text="Capacité *"/>
     <TextField fx:id="capacityField"/>
+
+    <Label text="Couleur de la salle"/>
+    <ColorPicker fx:id="colorPicker"/>
 
     <Button text="Enregistrer" onAction="#updateRoom"/>
 </VBox>

@@ -9,14 +9,16 @@ public class Movie {
     private String gender;
     private Date releaseDate;
     private int duration;
+    private String color;
 
-    public Movie(int id, String name, String details, String gender, Date releaseDate, int duration) {
+    public Movie(int id, String name, String details, String gender, Date releaseDate, int duration, String color) {
         this.id = id;
         this.name = name;
         this.details = details;
         this.gender = gender;
         this.releaseDate = releaseDate;
         this.duration = duration;
+        this.color = color;
     }
 
     public int getId() {
@@ -43,6 +45,10 @@ public class Movie {
         return duration;
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -65,6 +71,10 @@ public class Movie {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override

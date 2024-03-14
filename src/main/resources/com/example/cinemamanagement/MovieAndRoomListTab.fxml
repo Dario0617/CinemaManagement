@@ -27,7 +27,6 @@
             <HBox spacing="10" VBox.vgrow="ALWAYS">
                 <TextField fx:id="movieNameFilterField" promptText="Nom" HBox.hgrow="ALWAYS" />
                 <ComboBox fx:id="movieGenderFilterComboBox" promptText="Genre" HBox.hgrow="ALWAYS">
-                    <!-- Add gender in Controller from BDD -->
                 </ComboBox>
                 <HBox spacing="5">
                     <Label text="Entre" HBox.hgrow="ALWAYS" />
@@ -93,6 +92,9 @@
                     <TableColumn prefWidth="100" text="Durée">
                         <cellValueFactory><PropertyValueFactory property="Duration" /></cellValueFactory>
                     </TableColumn>
+                    <TableColumn prefWidth="100" text="Couleur">
+                        <cellValueFactory><PropertyValueFactory property="Color" /></cellValueFactory>
+                    </TableColumn>
                     <TableColumn prefWidth="100" text="Action">
                         <!-- Add button modify and delete in Controller -->
                     </TableColumn>
@@ -113,6 +115,9 @@
                     </TableColumn>
                     <TableColumn prefWidth="150" text="Capacité">
                         <cellValueFactory><PropertyValueFactory property="Capacity" /></cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="100" text="Couleur">
+                        <cellValueFactory><PropertyValueFactory property="Color" /></cellValueFactory>
                     </TableColumn>
                     <TableColumn prefWidth="100" text="Action">
                         <!-- Add button modify and delete in Controller -->

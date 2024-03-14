@@ -13,6 +13,7 @@ import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -21,6 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddManagementTabController extends CinemaManagementController {
+    @FXML
+    public ColorPicker colorPickerRoom;
+
+    @FXML
+    public ColorPicker colorPickerMovie;
+
     @FXML
     private TextField priceCostField;
 
@@ -66,10 +73,12 @@ public class AddManagementTabController extends CinemaManagementController {
             }
             genderComboBox.setItems(FXCollections.observableArrayList(genderNames));
         });
+        colorPickerRoom.setValue(Color.web("#A9A9A9"));
+        colorPickerMovie.setValue(Color.web("#D3D3D3"));
     }
 
     @FXML
-    private void addFilm() {
+    private void addMovie() {
         String name = filmNameField.getText();
         if (name.isBlank()){
             showAlert("Erreur", "Le nom est obligatoire", Alert.AlertType.ERROR);
@@ -102,7 +111,8 @@ public class AddManagementTabController extends CinemaManagementController {
             return;
         }
 
-        SQLException exception = MovieSQL.AddMovie(name, details, releaseDate, duration, genderId);
+        SQLException exception = MovieSQL.AddMovie(
+                new Movie(0, name, details, "", releaseDate, duration, decodeColorInHex(colorPickerMovie.getValue())), genderId);
         if (exception == null){
             showAlert("Film ajouté", "Le film \"" + name + "\" a été ajouté avec succès !",
                     Alert.AlertType.INFORMATION);
@@ -119,6 +129,7 @@ public class AddManagementTabController extends CinemaManagementController {
         genderComboBox.getSelectionModel().clearSelection();
         detailsArea.clear();
         durationField.clear();
+        colorPickerMovie.setValue(Color.web("#D3D3D3"));
     }
 
     @FXML
@@ -155,7 +166,7 @@ public class AddManagementTabController extends CinemaManagementController {
             return;
         }
 
-        SQLException exception = RoomSQL.AddRoom(new Room(name, capacity));
+        SQLException exception = RoomSQL.AddRoom(new Room(0, name, capacity, decodeColorInHex(colorPickerRoom.getValue())));
         if (exception == null){
             showAlert("Salle ajoutée", "La salle \"" + name + "\" a été ajoutée avec succès !",
                     Alert.AlertType.INFORMATION);
@@ -169,6 +180,7 @@ public class AddManagementTabController extends CinemaManagementController {
 
         roomNameField.clear();
         capacityField.clear();
+        colorPickerRoom.setValue(Color.web("#A9A9A9"));
     }
 
     @FXML

@@ -61,7 +61,7 @@ public class ScheduleAddSlotPopupController extends CinemaManagementController {
         });
         setLabelForMovieDuration(movies.get(0));
         labelForMovieDuration.setWrapText(true);
-        double[] screenSize = CinemaManagementController.setScreenSize(0.2, 0.2);
+        double[] screenSize = CinemaManagementController.setScreenSize(0.3, 0.3);
         stage = new Stage();
         stage.setScene(new Scene(root, screenSize[1], screenSize[0]));
         stage.setTitle("Ajouter le film planning");

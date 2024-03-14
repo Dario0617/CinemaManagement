@@ -9,16 +9,17 @@ import java.util.List;
 public class MovieSQL {
     static Connection connection = ConnectionBDD.ConnectionBDD();
 
-    public static SQLException AddMovie(String name, String details, Date releaseDate, int duration, int genderId){
-        String sql = "INSERT INTO Movie (`Name`, `Details`, `ReleaseDate`, `Duration`, `GenderId`) " +
-                "VALUES (?,?,?,?,?)";
+    public static SQLException AddMovie(Movie movie, int genderId){
+        String sql = "INSERT INTO Movie (`Name`, `Details`, `ReleaseDate`, `Duration`, `GenderId`, `Color`) " +
+                "VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, details);
-            preparedStatement.setDate(3, releaseDate);
-            preparedStatement.setInt(4, duration);
+            preparedStatement.setString(1, movie.getName());
+            preparedStatement.setString(2, movie.getDetails());
+            preparedStatement.setDate(3, movie.getReleaseDate());
+            preparedStatement.setInt(4, movie.getDuration());
             preparedStatement.setInt(5, genderId);
+            preparedStatement.setString(6, movie.getColor());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("SQLException : " +ex.getMessage());
@@ -41,8 +42,9 @@ public class MovieSQL {
                 String gender = resultSet.getString("Gender.Name");
                 Date releaseDate = resultSet.getDate("Movie.ReleaseDate");
                 int duration = resultSet.getInt("Movie.Duration");
+                String color = resultSet.getString("Movie.Color");
 
-                Movie movie = new Movie(id, name, details, gender, releaseDate, duration);
+                Movie movie = new Movie(id, name, details, gender, releaseDate, duration, color);
                 movies.add(movie);
             }
         } catch (SQLException ex) {
@@ -67,8 +69,9 @@ public class MovieSQL {
                     String gender = resultSet.getString("Gender.Name");
                     Date releaseDate = resultSet.getDate("Movie.ReleaseDate");
                     int duration = resultSet.getInt("Movie.Duration");
+                    String color = resultSet.getString("Movie.Color");
 
-                    return new Movie(id, name, details, gender, releaseDate, duration);
+                    return new Movie(id, name, details, gender, releaseDate, duration, color);
                 }
             }
         } catch (SQLException ex) {
@@ -81,7 +84,8 @@ public class MovieSQL {
     }
 
     public static SQLException UpdateMovie(Movie movie, int genderId){
-        String sql = "UPDATE Movie SET Name = ?, Details = ?, GenderId = ?, ReleaseDate = ?, Duration = ? WHERE Id = ?";
+        String sql = "UPDATE Movie SET Name = ?, Details = ?, GenderId = ?, ReleaseDate = ?, Duration = ? , Color = ?" +
+                " WHERE Id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, movie.getName());
@@ -89,7 +93,8 @@ public class MovieSQL {
             preparedStatement.setInt(3, genderId);
             preparedStatement.setDate(4, movie.getReleaseDate());
             preparedStatement.setInt(5, movie.getDuration());
-            preparedStatement.setInt(6, movie.getId());
+            preparedStatement.setString(6, movie.getColor());
+            preparedStatement.setInt(7, movie.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {

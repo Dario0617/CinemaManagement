@@ -43,7 +43,7 @@ public class ScheduleTabController extends CinemaManagementController {
                 if (o == 0){
                     Label roomLabel = new Label(rooms.get(i).getName());
                     roomLabel.setStyle("-fx-font-weight: bold");
-                    VBox vBoxRoom = createVbox(roomLabel, "darkgray");
+                    VBox vBoxRoom = createVbox(roomLabel, rooms.get(i).getColor());
                     setVboxInGridPane(vBoxRoom, o, i);
                 }
                 VBox vBox = createVbox(new Label(), "");
@@ -82,7 +82,7 @@ public class ScheduleTabController extends CinemaManagementController {
                 return;
             }
             for (int j = 0; j < slotUsed; j++) {
-                VBox vBox = createVbox(new Label(textLabel), "lightgray");
+                VBox vBox = createVbox(new Label(textLabel), slot.getMovie().getColor());
                 vBox.setOnMouseClicked(mouseEvent -> {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/ScheduleEditSlotPopup.fxml"));
