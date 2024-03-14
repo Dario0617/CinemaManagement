@@ -39,8 +39,12 @@ public class CinemaManagementController {
     }
 
     public void movieAndRoomList(Event event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/MovieAndRoomListTab.fxml"));
-        Parent root = loader.load();
-        MovieAndRoomListTabController controller = loader.getController();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/MovieAndRoomListTab.fxml"));
+//        Parent root = loader.load();
+//        MovieAndRoomListTabController controller = loader.getController();
+//        controller.configureColumns();
+//        controller.loadGenderDataAndInitializeFilter();
+//        controller.loadMovieData();
+//        controller.loadRoomData();
     }
 }

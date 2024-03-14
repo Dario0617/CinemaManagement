@@ -4,6 +4,7 @@ import classes.Room;
 import classes.Slot;
 import dataBaseSQL.RoomSQL;
 import dataBaseSQL.SlotSQL;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -60,30 +61,47 @@ public class ScheduleTabController extends CinemaManagementController {
                     }
                 });
             }
+        }
 
-            List<Slot> todaySlots = SlotSQL.GetTodaySlots();
-            for (Slot slot: todaySlots) {
-                int rowIndex = (slot.getStartHour()+1);
-                int slotUsed = ScheduleAddSlotPopupController.getSlotUsed(slot.getMovie().getDuration());
-                int maxHour = slot.getStartHour() + (slotUsed);
-                String textLabel = slot.getMovie().getName() + " de " +
-                        (slot.getStartHour() > 9 ? slot.getStartHour() : "0" + slot.getStartHour()) +
-                        "h à " + (maxHour > 9 ? maxHour : "0" + maxHour) + "h";
-                // Add field in Movie for Slot color
-                int columnIndex = -1;
-                for (Room room: rooms) {
-                    if(room.getId() == slot.getRoom().getId()){
-                        columnIndex =  rooms.indexOf(room);
+        List<Slot> todaySlots = SlotSQL.GetTodaySlots();
+        for (Slot slot: todaySlots) {
+            int rowIndex = (slot.getStartHour()+1);
+            int slotUsed = ScheduleAddSlotPopupController.getSlotUsed(slot.getMovie().getDuration());
+            int maxHour = slot.getStartHour() + (slotUsed);
+            String minHourFormatted = (slot.getStartHour() > 9 ? "" + slot.getStartHour() : "0" + slot.getStartHour()) + "h à ";
+            String maxHourFormatted = (maxHour > 9 ? maxHour : "0" + maxHour) + "h";
+            String textLabel = slot.getMovie().getName() + " de " + minHourFormatted + maxHourFormatted;
+            int columnIndex = -1;
+            for (Room room: rooms) {
+                if(room.getId() == slot.getRoom().getId()){
+                    columnIndex =  rooms.indexOf(room);
+                }
+            }
+            if (columnIndex == -1){
+                showDefaultErrorAlert("", null);
+                return;
+            }
+            for (int j = 0; j < slotUsed; j++) {
+                VBox vBox = createVbox(new Label(textLabel), "lightgray");
+                vBox.setOnMouseClicked(mouseEvent -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/ScheduleEditSlotPopup.fxml"));
+                        Parent root = loader.load();
+                        ScheduleEditSlotPopupController controller = loader.getController();
+                        controller.setScheduleEditSlotPopup(slot, minHourFormatted, maxHourFormatted , root);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                for (Node node : scheduleGridPane.getChildren()) {
+                    if(GridPane.getRowIndex(node) == rowIndex+j && GridPane.getColumnIndex(node) == columnIndex) {
+                        scheduleGridPane.getChildren().remove(node);
+                        break;
                     }
                 }
-                if (columnIndex == -1){
-                    showDefaultErrorAlert("", null);
-                    return;
-                }
-                setVboxInGridPane(createVbox(new Label(textLabel), "lightgray"), rowIndex, columnIndex);
-                for (int j = 1; j < slotUsed; j++) {
-                    setVboxInGridPane(createVbox(new Label(textLabel), "lightgray"), rowIndex+j, columnIndex);
-                }
+
+                setVboxInGridPane(vBox, rowIndex+j, columnIndex);
             }
         }
     }

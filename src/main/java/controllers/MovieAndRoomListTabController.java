@@ -70,13 +70,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
         loadRoomData();
     }
 
-    private void configureColumns() {
-        TableColumn<Movie, Integer> idColumn = (TableColumn<Movie, Integer>) movieTableView.getColumns().get(0);
-        TableColumn<Movie, String> nameColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(1);
-        TableColumn<Movie, String> detailsColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(2);
-        TableColumn<Movie, String> genderColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(3);
-        TableColumn<Movie, String> dateColumn = (TableColumn<Movie, String>) movieTableView.getColumns().get(4);
-        TableColumn<Movie, Integer> durationColumn = (TableColumn<Movie, Integer>) movieTableView.getColumns().get(5);
+    public void configureColumns() {
         TableColumn<Movie, Void> actionColumn = (TableColumn<Movie, Void>) movieTableView.getColumns().get(6);
 
         actionColumn.setCellFactory(param -> new TableCell<>() {
@@ -176,7 +170,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
         });
     }
 
-    private void loadGenderDataAndInitializeFilter() {
+    public void loadGenderDataAndInitializeFilter() {
         movieGenderFilterComboBox.setOnMouseClicked(mouseEvent -> {
             genderNames = new ArrayList<>();
             List<Gender> genders = GenderSQL.GetGenders();
@@ -188,7 +182,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
         });
     }
 
-    private void loadMovieData() {
+    public void loadMovieData() {
         List<Movie> movies = MovieSQL.GetMovies();
         if (!movies.isEmpty()){
             originalMovieList.addAll(movies);
@@ -196,7 +190,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
         movieTableView.setItems(FXCollections.observableArrayList(originalMovieList));
     }
 
-    private void loadRoomData() {
+    public void loadRoomData() {
         List<Room> rooms = RoomSQL.GetRooms();
         if (!rooms.isEmpty()){
             originalRoomList.addAll(rooms);

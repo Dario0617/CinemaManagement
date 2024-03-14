@@ -15,13 +15,16 @@
                         <fx:include source="ScheduleTab.fxml" />
                     </content>
                 </Tab>
-                <Tab closable="false" onSelectionChanged="#movieAndRoomList" text="Liste des films / Salles">
+                <Tab closable="false" onSelectionChanged="#movieAndRoomList" text="Liste des Films / Salles">
                     <content>
                         <fx:include source="MovieAndRoomListTab.fxml" />
                     </content>
                 </Tab>
                 <Tab closable="false" text="Ajouter">
                     <fx:include source="AddManagementTab.fxml" />
+                </Tab>
+                <Tab closable="false" text="Facturation">
+<!--                    <fx:include source="BillingTab.fxml" />-->
                 </Tab>
             </tabs>
         </TabPane>

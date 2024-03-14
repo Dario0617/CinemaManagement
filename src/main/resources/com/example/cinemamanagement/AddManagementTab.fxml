@@ -41,4 +41,13 @@
         <Button text="Ajouter Salle" onAction="#addRoom"/>
     </VBox>
 
+    <Separator/>
+
+    <VBox spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10px; -fx-border-radius: 5px;">
+        <Label text="Ajouter un tarif" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="priceNameField" promptText="Nom du tarif"/>
+        <TextField fx:id="priceCostField" promptText="Prix du tarif"/>
+        <Button text="Ajouter Tarif" onAction="#addPricing"/>
+    </VBox>
+
 </VBox>

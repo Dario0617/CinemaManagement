@@ -2,12 +2,15 @@ package controllers;
 
 import classes.Gender;
 import classes.Movie;
+import classes.Price;
 import classes.Room;
 import dataBaseSQL.GenderSQL;
 import dataBaseSQL.MovieSQL;
+import dataBaseSQL.PriceSQL;
 import dataBaseSQL.RoomSQL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -21,6 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddManagementTabController extends CinemaManagementController {
+    @FXML
+    private TextField priceCostField;
+
+    @FXML
+    private TextField priceNameField;
 
     @FXML
     private TextField filmNameField;
@@ -164,5 +172,30 @@ public class AddManagementTabController extends CinemaManagementController {
 
         roomNameField.clear();
         capacityField.clear();
+    }
+
+    @FXML
+    public void addPricing(ActionEvent actionEvent) {
+        String name = priceNameField.getText();
+        if (name.isBlank()){
+            showAlert("Erreur", "Le nom est obligatoire", Alert.AlertType.ERROR);
+            return;
+        }
+        int cost;
+        try {
+            cost = Integer.parseInt(priceCostField.getText());
+        } catch (NumberFormatException e){
+            showAlert("Erreur", "Le prix est obligatoire, il faut qu'il soit au format numérique",
+                    Alert.AlertType.ERROR);
+            return;
+        }
+
+        SQLException exception = PriceSQL.AddPrice(new Price(0, name, cost));
+        if (exception == null){
+            showAlert("Tarif ajouté", "Le tarif a été ajoutée avec succès !",
+                    Alert.AlertType.INFORMATION);
+        } else{
+            showDefaultErrorAlert(" lors de la création du tarif", exception);
+        }
     }
 }
