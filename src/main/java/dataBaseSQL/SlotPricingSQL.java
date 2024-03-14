@@ -80,7 +80,7 @@ public class SlotPricingSQL {
         return null;
     }
 
-    public static float GetTodayIncome(Movie movie, Room room){
+    public static float GetIncome(Date date, Movie movie, Room room){
         String sql = "SELECT Slotpricing.OccupiedSeat, Price.Cost FROM Slotpricing " +
                 "INNER JOIN Slot ON Slotpricing.SlotId = Slot.Id " +
                 "INNER JOIN Price ON Slotpricing.PriceId = Price.Id " +
@@ -93,7 +93,7 @@ public class SlotPricingSQL {
         }
         float todayIncome = 0;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setDate(1, Date.valueOf(LocalDate.now()));
+            preparedStatement.setDate(1, date);
             if (movie != null){
                 preparedStatement.setInt(2, movie.getId());
             }

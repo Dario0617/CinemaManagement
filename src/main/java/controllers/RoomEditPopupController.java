@@ -38,14 +38,29 @@ public class RoomEditPopupController extends CinemaManagementController {
 
     @FXML
     private void updateRoom() {
-        roomToEdit.setName(roomNameField.getText());
-        roomToEdit.setCapacity(Integer.parseInt(capacityField.getText()));
+        String name = roomNameField.getText();
+        if (name.isBlank()) {
+            showAlert("Erreur", "Le nom est obligatoire", Alert.AlertType.ERROR);
+            return;
+        }
+
+        int capacity;
+        try {
+            capacity = Integer.parseInt(capacityField.getText());
+        } catch (NumberFormatException e){
+            showAlert("Erreur", "La capacité est obligatoire, il faut qu'elle soit au format numérique",
+                    Alert.AlertType.ERROR);
+            return;
+        }
+
         stage.close();
 
         SQLException exception = RoomSQL.UpdateRoom(roomToEdit);
         if (exception != null){
             showDefaultErrorAlert(" lors de la modification de la salle", exception);
         } else {
+            roomToEdit.setName(name);
+            roomToEdit.setCapacity(capacity);
             showAlert("Salle modifié", "La salle \"" + roomToEdit.getName() + "\" a été modifié avec succès !",
                     Alert.AlertType.INFORMATION);
         }

@@ -10,10 +10,10 @@
       fx:controller="controllers.RoomEditPopupController"
       spacing="10" alignment="CENTER">
 
-    <Label text="Nom de la salle"/>
+    <Label text="Nom de la salle *"/>
     <TextField fx:id="roomNameField"/>
 
-    <Label text="Capacité"/>
+    <Label text="Capacité *"/>
     <TextField fx:id="capacityField"/>
 
     <Button text="Enregistrer" onAction="#updateRoom"/>

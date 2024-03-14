@@ -8,9 +8,13 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BillingTabController extends CinemaManagementController {
@@ -19,6 +23,9 @@ public class BillingTabController extends CinemaManagementController {
 
     @FXML
     public ComboBox<Room> comboBoxRooms;
+
+    @FXML
+    public DatePicker datePicker;
 
     @FXML
     private ComboBox<Price> comboBoxPrice;
@@ -51,6 +58,8 @@ public class BillingTabController extends CinemaManagementController {
             List<Room> rooms = RoomSQL.GetRooms();
             comboBoxRooms.setItems(FXCollections.observableArrayList(rooms));
         });
+
+        datePicker.setValue(LocalDate.now());
     }
 
     @FXML
@@ -99,28 +108,35 @@ public class BillingTabController extends CinemaManagementController {
     }
 
     @FXML
-    public void getTodayIncome() {
+    public void getIncome() {
         Movie selectedMovie = comboBoxMovies.getSelectionModel().getSelectedItem();
         Room selectedRoom = comboBoxRooms.getSelectionModel().getSelectedItem();
 
+        Date date = Date.valueOf(datePicker.getValue());
+
        if (selectedMovie == null && selectedRoom == null){
-           float todayIncome = SlotPricingSQL.GetTodayIncome(null, null);
-           showAlert("Revenu du jour", "Aujourd'hui nous avons réalisons un revenu de " + todayIncome +
-                           "€ pour toutes les salles et films",
+           float todayIncome = SlotPricingSQL.GetIncome(date,null, null);
+           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
+                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
+                           " nous avons réalisé un revenu de " + todayIncome + "€ pour toutes les salles et films",
                    Alert.AlertType.INFORMATION);
        } else if (selectedMovie != null && selectedRoom == null) {
-           float todayIncome = SlotPricingSQL.GetTodayIncome(selectedMovie, null);
-           showAlert("Revenu du jour", "Aujourd'hui nous avons réalisons un revenu de " + todayIncome +
-                           "€ pour le film '" + selectedMovie.getName() + "'",
+           float todayIncome = SlotPricingSQL.GetIncome(date, selectedMovie, null);
+           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
+                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
+                           " nous avons réalisé un revenu de " + todayIncome + "€ pour le film '" + selectedMovie.getName() + "'",
                    Alert.AlertType.INFORMATION);
        } else if (selectedMovie == null && selectedRoom != null) {
-           float todayIncome = SlotPricingSQL.GetTodayIncome(null, selectedRoom);
-           showAlert("Revenu du jour", "Aujourd'hui nous avons réalisons un revenu de " + todayIncome +
-                           "€ pour la salle '" + selectedRoom.getName() + "'",
+           float todayIncome = SlotPricingSQL.GetIncome(date, null, selectedRoom);
+           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
+                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
+                           " nous avons réalisé un revenu de " + todayIncome + "€ pour la salle '" + selectedRoom.getName() + "'",
                    Alert.AlertType.INFORMATION);
        } else {
-           float todayIncome = SlotPricingSQL.GetTodayIncome(selectedMovie, selectedRoom);
-           showAlert("Revenu du jour", "Aujourd'hui nous avons réalisons un revenu de " + todayIncome +
+           float todayIncome = SlotPricingSQL.GetIncome(date, selectedMovie, selectedRoom);
+           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
+                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
+                           " nous avons réalisé un revenu de " + todayIncome +
                            "€ pour le film '" + selectedMovie.getName() + "' dans la salle '" + selectedRoom.getName() + "'",
                    Alert.AlertType.INFORMATION);
        }

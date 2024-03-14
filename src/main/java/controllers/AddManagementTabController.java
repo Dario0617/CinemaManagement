@@ -12,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -40,7 +37,7 @@ public class AddManagementTabController extends CinemaManagementController {
     private ComboBox<String> genderComboBox;
 
     @FXML
-    private TextField detailsField;
+    private TextArea detailsArea;
 
     @FXML
     private TextField durationField;
@@ -94,7 +91,7 @@ public class AddManagementTabController extends CinemaManagementController {
             return;
         }
 
-        String details = detailsField.getText();
+        String details = detailsArea.getText();
 
         int duration;
         try {
@@ -120,7 +117,7 @@ public class AddManagementTabController extends CinemaManagementController {
         filmNameField.clear();
         movieReleaseDatePicker.setValue(null);
         genderComboBox.getSelectionModel().clearSelection();
-        detailsField.clear();
+        detailsArea.clear();
         durationField.clear();
     }
 

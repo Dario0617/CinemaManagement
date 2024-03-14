@@ -9,15 +9,13 @@ import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class MovieEditPopupController extends CinemaManagementController {
     private TextField movieNameField;
 
     @FXML
-    private TextField movieDetailsField;
+    private TextArea movieDetailsArea;
 
     @FXML
     private ComboBox<String> movieGenderComboBox;
@@ -49,7 +47,7 @@ public class MovieEditPopupController extends CinemaManagementController {
     public void setMovieEditPopup(Movie movie, Parent root) {
         this.movieToEdit = movie;
         movieNameField.setText(movie.getName());
-        movieDetailsField.setText(movie.getDetails());
+        movieDetailsArea.setText(movie.getDetails());
 
         genderNames = new ArrayList<>();
         List<Gender> genders = GenderSQL.GetGenders();
@@ -62,7 +60,7 @@ public class MovieEditPopupController extends CinemaManagementController {
 
         movieYearDatePicker.setValue(movie.getReleaseDate().toLocalDate());
         movieDurationField.setText(Integer.toString(movie.getDuration()));
-        double[] screenSize = CinemaManagementController.setScreenSize(0.4, 0.4);
+        double[] screenSize = CinemaManagementController.setScreenSize(0.5, 0.5);
         stage = new Stage();
         stage.setScene(new Scene(root, screenSize[1], screenSize[0]));
         stage.setTitle("Modifier le film");
@@ -72,22 +70,51 @@ public class MovieEditPopupController extends CinemaManagementController {
 
     @FXML
     private void updateMovie() {
-        movieToEdit.setName(movieNameField.getText());
-        movieToEdit.setDetails(movieDetailsField.getText());
-        movieToEdit.setGender(movieGenderComboBox.getValue());
-        movieToEdit.setReleaseDate(Date.valueOf(movieYearDatePicker.getValue()));
-        movieToEdit.setDuration(Integer.parseInt(movieDurationField.getText()));
+        String name = movieNameField.getText();
+        if (name.isBlank()){
+            showAlert("Erreur", "Le nom est obligatoire", Alert.AlertType.ERROR);
+            return;
+        }
 
-        stage.close();
+        LocalDate date = movieYearDatePicker.getValue();
+        if (date == null){
+            showAlert("Erreur", "La date est obligatoire", Alert.AlertType.ERROR);
+            return;
+        }
+
         List<Gender> genders = GenderSQL.GetGenders();
         for (Gender gender: genders) {
             genderIds.put(gender.getName(), gender.getId());
         }
+        int genderId;
+        try {
+            genderId = genderIds.get(movieGenderComboBox.getValue());
+        } catch (NullPointerException e){
+            showAlert("Erreur", "Le genre est obligatoire", Alert.AlertType.ERROR);
+            return;
+        }
+
+        int duration;
+        try {
+            duration = Integer.parseInt(movieDurationField.getText());
+        } catch (NumberFormatException e){
+            showAlert("Erreur", "La durée est obligatoire, il faut qu'elle soit au format numérique",
+                    Alert.AlertType.ERROR);
+            return;
+        }
+
+        stage.close();
+
         SQLException exception =
-                MovieSQL.UpdateMovie(movieToEdit, genderIds.get(movieToEdit.getGender()));
+                MovieSQL.UpdateMovie(movieToEdit, genderId);
         if (exception != null){
             showDefaultErrorAlert(" lors de la modification du film", exception);
         } else {
+            movieToEdit.setName(name);
+            movieToEdit.setGender(movieGenderComboBox.getValue());
+            movieToEdit.setReleaseDate(Date.valueOf(date));
+            movieToEdit.setDuration(duration);
+            movieToEdit.setDetails(movieDetailsArea.getText());
             showAlert("Film modifié", "Le film \"" + movieToEdit.getName() + "\" a été modifié avec succès !",
                     Alert.AlertType.INFORMATION);
         }

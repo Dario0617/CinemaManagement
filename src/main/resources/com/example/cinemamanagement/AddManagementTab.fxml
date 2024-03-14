@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.AddManagementTabController"
@@ -19,7 +21,7 @@
         <TextField fx:id="filmNameField" promptText="Nom du film"/>
         <DatePicker fx:id="movieReleaseDatePicker" promptText="Date de sortie"/>
         <ComboBox fx:id="genderComboBox" promptText="Genre"/>
-        <TextField fx:id="detailsField" promptText="Détails"/>
+        <TextArea fx:id="detailsArea" wrapText="true" promptText="Détails"/>
         <TextField fx:id="durationField" promptText="Durée (minutes)"/>
         <Button text="Ajouter Film" onAction="#addFilm"/>
     </VBox>

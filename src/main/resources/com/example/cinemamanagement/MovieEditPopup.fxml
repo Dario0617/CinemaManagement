@@ -6,25 +6,26 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextArea?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="controllers.MovieEditPopupController"
       spacing="10" alignment="CENTER">
 
-    <Label text="Nom du film"/>
+    <Label text="Nom du film *"/>
     <TextField fx:id="movieNameField"/>
 
     <Label text="Détails"/>
-    <TextField fx:id="movieDetailsField"/>
+    <TextArea fx:id="movieDetailsArea" wrapText="true"/>
 
-    <Label text="Genre"/>
+    <Label text="Genre *"/>
     <ComboBox fx:id="movieGenderComboBox"/>
 
-    <Label text="Date de sortie"/>
+    <Label text="Date de sortie *"/>
     <DatePicker fx:id="movieYearDatePicker"/>
 
-    <Label text="Durée (minutes)"/>
+    <Label text="Durée (minutes) *"/>
     <TextField fx:id="movieDurationField"/>
 
     <Button text="Enregistrer" onAction="#updateMovie"/>
