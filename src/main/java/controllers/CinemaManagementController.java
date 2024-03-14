@@ -1,9 +1,6 @@
 package controllers;
 
-import javafx.collections.FXCollections;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.stage.Screen;
 

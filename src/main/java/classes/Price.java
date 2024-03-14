@@ -3,9 +3,9 @@ package classes;
 public class Price {
     private int id;
     private String Name;
-    private int Cost;
+    private float Cost;
 
-    public Price(int id, String name, int cost) {
+    public Price(int id, String name, float cost) {
         this.id = id;
         this.Name = name;
         this.Cost = cost;
@@ -18,14 +18,21 @@ public class Price {
     public String getName() {
         return Name;
     }
-    public int getCost() {
+
+    public float getCost() {
         return Cost;
     }
 
     public void setName(String name) {
         this.Name = name;
     }
-    public void setCost(int cost) {
+
+    public void setCost(float cost) {
         this.Cost = cost;
+    }
+
+    @Override
+    public String toString() {
+        return this.Name;
     }
 }

@@ -24,7 +24,7 @@
                     <fx:include source="AddManagementTab.fxml" />
                 </Tab>
                 <Tab closable="false" text="Facturation">
-<!--                    <fx:include source="BillingTab.fxml" />-->
+                    <fx:include source="BillingTab.fxml" />
                 </Tab>
             </tabs>
         </TabPane>

@@ -1,6 +1,10 @@
 package dataBaseSQL;
 
+import classes.Movie;
+import classes.Room;
+
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class SlotPricingSQL {
@@ -74,6 +78,46 @@ public class SlotPricingSQL {
             return ex;
         }
         return null;
+    }
+
+    public static float GetTodayIncome(Movie movie, Room room){
+        String sql = "SELECT Slotpricing.OccupiedSeat, Price.Cost FROM Slotpricing " +
+                "INNER JOIN Slot ON Slotpricing.SlotId = Slot.Id " +
+                "INNER JOIN Price ON Slotpricing.PriceId = Price.Id " +
+                "WHERE Slot.Date = ?";
+        if (movie != null){
+            sql += " AND Slot.MovieId = ?";
+        }
+        if (room != null){
+            sql += " AND Slot.RoomId = ?";
+        }
+        float todayIncome = 0;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now()));
+            if (movie != null){
+                preparedStatement.setInt(2, movie.getId());
+            }
+            if (room != null){
+                int index = 2;
+                if (movie != null){
+                    index = 3;
+                }
+                preparedStatement.setInt(index, room.getId());
+            }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                int occupiedSeat = resultSet.getInt(1);
+                float cost = resultSet.getFloat(2);
+
+                todayIncome += (occupiedSeat * cost);
+            }
+        } catch (SQLException ex) {
+            //Handle any errors
+            System.out.println("SQLException : " +ex.getMessage());
+            System.out.println("SQLState : " + ex.getSQLState());
+            System.out.println("VendorError : " + ex.getErrorCode());
+        }
+        return todayIncome;
     }
 }
 

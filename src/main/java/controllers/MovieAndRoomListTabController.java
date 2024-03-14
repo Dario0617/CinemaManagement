@@ -23,7 +23,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 
 public class MovieAndRoomListTabController extends CinemaManagementController {
-
     @FXML
     private TableView<Movie> movieTableView;
 
