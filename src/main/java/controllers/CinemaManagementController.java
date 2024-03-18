@@ -36,16 +36,6 @@ public class CinemaManagementController {
         return screenSize;
     }
 
-    public void movieAndRoomList(Event event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/MovieAndRoomListTab.fxml"));
-//        Parent root = loader.load();
-//        MovieAndRoomListTabController controller = loader.getController();
-//        controller.configureColumns();
-//        controller.loadGenderDataAndInitializeFilter();
-//        controller.loadMovieData();
-//        controller.loadRoomData();
-    }
-
     public static String decodeColorInHex(Color color){
         return String.format( "#%02X%02X%02X",
                 (int)( color.getRed() * 255 ),

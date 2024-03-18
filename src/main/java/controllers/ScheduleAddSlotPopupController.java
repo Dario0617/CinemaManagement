@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleAddSlotPopupController extends CinemaManagementController {
+    private ScheduleTabController scheduleTabController;
 
     @FXML
     private Label labelForRoomAndTime;
@@ -35,7 +36,8 @@ public class ScheduleAddSlotPopupController extends CinemaManagementController {
 
     private int startHour;
 
-    public void setScheduleAddSlotPopup(Room room, int time, Parent root) {
+    public void setScheduleAddSlotPopup(Room room, int time, Parent root, ScheduleTabController scheduleTabController) {
+        this.scheduleTabController = scheduleTabController;
         roomForAdd = room;
         startHour = time;
         movies = MovieSQL.GetMovies();
@@ -102,6 +104,10 @@ public class ScheduleAddSlotPopupController extends CinemaManagementController {
         } else {
             showAlert("Film ajouté au planning", "Le film \"" + movieComboBox.getValue() + "\" a été ajouté avec succès au planning !",
                     Alert.AlertType.INFORMATION);
+            scheduleTabController.scheduleGridPane.setGridLinesVisible(false);
+            scheduleTabController.scheduleGridPane.getChildren().clear();
+            scheduleTabController.scheduleGridPane.setGridLinesVisible(true);
+            scheduleTabController.refreshSchedule();
         }
     }
 }

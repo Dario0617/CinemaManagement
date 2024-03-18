@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ScheduleEditSlotPopupController extends CinemaManagementController {
+    private ScheduleTabController scheduleTabController;
+
     @FXML
     private VBox vbox;
 
@@ -37,7 +39,8 @@ public class ScheduleEditSlotPopupController extends CinemaManagementController 
 
     private int newSeatOccupied;
 
-    public void setScheduleEditSlotPopup(Slot slot, String minHour, String maxHour, Parent root) {
+    public void setScheduleEditSlotPopup(Slot slot, String minHour, String maxHour, Parent root, ScheduleTabController scheduleTabController) {
+        this.scheduleTabController = scheduleTabController;
         slotUsed = slot;
         labelForRoomAndTime.setText("Créneau pour le film '" + slot.getMovie().getName() + "' de " + minHour + maxHour + " dans la salle '" +
                 slot.getRoom().getName() + "'");
@@ -145,6 +148,11 @@ public class ScheduleEditSlotPopupController extends CinemaManagementController 
         } else {
             showAlert("Créneau modifié", "Le créneau a été modifié avec succès!",
                     Alert.AlertType.INFORMATION);
+            stage.close();
+            scheduleTabController.scheduleGridPane.setGridLinesVisible(false);
+            scheduleTabController.scheduleGridPane.getChildren().clear();
+            scheduleTabController.scheduleGridPane.setGridLinesVisible(true);
+            scheduleTabController.refreshSchedule();
         }
     }
 }

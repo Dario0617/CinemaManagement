@@ -1,20 +1,16 @@
 package controllers;
 
-import classes.Price;
 import classes.Room;
 import classes.Slot;
-import dataBaseSQL.PriceSQL;
 import dataBaseSQL.RoomSQL;
 import dataBaseSQL.SlotPricingSQL;
 import dataBaseSQL.SlotSQL;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -22,10 +18,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScheduleTabController extends CinemaManagementController {
     @FXML
-    private GridPane scheduleGridPane;
+    public GridPane scheduleGridPane;
 
     @FXML
     private Label dateTimeNowLabel;
@@ -38,6 +35,8 @@ public class ScheduleTabController extends CinemaManagementController {
         dateTimeNowLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 15");
 
         rooms = RoomSQL.GetRooms();
+
+        scheduleGridPane.getColumnConstraints().clear();
 
         for (int i = 0; i < rooms.size(); i++) {
             ColumnConstraints column = new ColumnConstraints();
@@ -60,7 +59,7 @@ public class ScheduleTabController extends CinemaManagementController {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/ScheduleAddSlotPopup.fxml"));
                         Parent root = loader.load();
                         ScheduleAddSlotPopupController controller = loader.getController();
-                        controller.setScheduleAddSlotPopup(rooms.get(vBoxColumn), vBoxRow-1 , root);
+                        controller.setScheduleAddSlotPopup(rooms.get(vBoxColumn), vBoxRow-1 , root, this);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -83,15 +82,11 @@ public class ScheduleTabController extends CinemaManagementController {
                 }
             }
             HashMap<Integer, Integer> slotPricing = SlotPricingSQL.GetSlotPricing(slot.getId());
-            int seatOccupied = 0;
-            for (Price price: PriceSQL.GetPricing()) {
-                int initialValue = 0;
-                if (!slotPricing.isEmpty()) {
-                    initialValue = slotPricing.get(price.getId());
-                }
-                seatOccupied += initialValue;
-            }
-            int seatAvailable = slot.getRoom().getCapacity() - seatOccupied;
+            AtomicInteger seatOccupied = new AtomicInteger();
+            slotPricing.forEach((key, value) -> {
+                seatOccupied.addAndGet(value);
+            });
+            int seatAvailable = slot.getRoom().getCapacity() - seatOccupied.get();
             textLabel += " | " + seatAvailable + " places disponibles";
             if (columnIndex == -1){
                 showDefaultErrorAlert("", null);
@@ -99,12 +94,13 @@ public class ScheduleTabController extends CinemaManagementController {
             }
             for (int j = 0; j < slotUsed; j++) {
                 VBox vBox = createVbox(new Label(textLabel), slot.getMovie().getColor());
+                //vBox.setViewOrder(-1);
                 vBox.setOnMouseClicked(mouseEvent -> {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/ScheduleEditSlotPopup.fxml"));
                         Parent root = loader.load();
                         ScheduleEditSlotPopupController controller = loader.getController();
-                        controller.setScheduleEditSlotPopup(slot, minHourFormatted, maxHourFormatted , root);
+                        controller.setScheduleEditSlotPopup(slot, minHourFormatted, maxHourFormatted , root, this);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -135,5 +131,9 @@ public class ScheduleTabController extends CinemaManagementController {
             vBox.setStyle("-fx-background-color: " + backgroundColor + ";");
         }
         return vBox;
+    }
+
+    public void refreshSchedule() {
+        initialize();
     }
 }

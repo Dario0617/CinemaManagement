@@ -8,25 +8,19 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.CinemaManagementController">
     <center>
-        <TabPane fx:id="tabPane">
-            <tabs>
-                <Tab closable="false" text="Planning">
-                    <content>
-                        <fx:include source="ScheduleTab.fxml" />
-                    </content>
-                </Tab>
-                <Tab closable="false" onSelectionChanged="#movieAndRoomList" text="Liste des Films / Salles">
-                    <content>
-                        <fx:include source="MovieAndRoomListTab.fxml" />
-                    </content>
-                </Tab>
-                <Tab closable="false" text="Ajouter">
-                    <fx:include source="AddManagementTab.fxml" />
-                </Tab>
-                <Tab closable="false" text="Facturation">
-                    <fx:include source="BillingTab.fxml" />
-                </Tab>
-            </tabs>
+        <TabPane>
+            <Tab closable="false" text="Planning">
+                <fx:include source="ScheduleTab.fxml"/>
+            </Tab>
+            <Tab closable="false" text="Liste des Films / Salles">
+                <fx:include source="MovieAndRoomListTab.fxml"/>
+            </Tab>
+            <Tab closable="false" text="Ajouter">
+                <fx:include source="AddManagementTab.fxml"/>
+            </Tab>
+            <Tab closable="false" text="Facturation">
+                <fx:include source="BillingTab.fxml"/>
+            </Tab>
         </TabPane>
     </center>
 </BorderPane>
