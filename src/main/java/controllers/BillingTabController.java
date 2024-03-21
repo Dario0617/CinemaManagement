@@ -72,9 +72,14 @@ public class BillingTabController extends CinemaManagementController {
                 return;
             }
             selectedPrice.setName(name);
-            int cost;
+            float cost;
             try {
-                cost = Integer.parseInt(costField.getText());
+                cost = Float.parseFloat(costField.getText());
+                if (cost <= 0){
+                    showAlert("Erreur", "Le prix doit être positif",
+                            Alert.AlertType.ERROR);
+                    return;
+                }
             } catch (NumberFormatException e){
                 showAlert("Erreur", "Le prix est obligatoire, il faut qu'il soit au format numérique",
                         Alert.AlertType.ERROR);

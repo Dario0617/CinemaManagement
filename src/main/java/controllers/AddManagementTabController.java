@@ -105,6 +105,11 @@ public class AddManagementTabController extends CinemaManagementController {
         int duration;
         try {
             duration = Integer.parseInt(durationField.getText());
+            if (duration <= 0){
+                showAlert("Erreur", "La durée doit être positive",
+                        Alert.AlertType.ERROR);
+                return;
+            }
         } catch (NumberFormatException e){
             showAlert("Erreur", "La durée est obligatoire, il faut qu'elle soit au format numérique",
                     Alert.AlertType.ERROR);
@@ -119,10 +124,6 @@ public class AddManagementTabController extends CinemaManagementController {
         } else{
             showDefaultErrorAlert(" lors de la création du film", exception);
         }
-
-        List<Movie> movies = MovieSQL.GetMovies();
-        MovieAndRoomListTabController.originalMovieList.clear();
-        MovieAndRoomListTabController.originalMovieList.addAll(movies);
 
         filmNameField.clear();
         movieReleaseDatePicker.setValue(null);
@@ -160,6 +161,11 @@ public class AddManagementTabController extends CinemaManagementController {
         int capacity;
         try {
             capacity = Integer.parseInt(capacityField.getText());
+            if (capacity <= 0){
+                showAlert("Erreur", "La capacité doit être positive",
+                        Alert.AlertType.ERROR);
+                return;
+            }
         } catch (NumberFormatException e){
             showAlert("Erreur", "La capacité est obligatoire, il faut qu'elle soit au format numérique",
                     Alert.AlertType.ERROR);
@@ -173,10 +179,6 @@ public class AddManagementTabController extends CinemaManagementController {
         } else{
             showDefaultErrorAlert(" lors de la création de la salle", exception);
         }
-
-        List<Room> rooms = RoomSQL.GetRooms();
-        MovieAndRoomListTabController.originalRoomList.clear();
-        MovieAndRoomListTabController.originalRoomList.addAll(rooms);
 
         roomNameField.clear();
         capacityField.clear();
@@ -193,6 +195,11 @@ public class AddManagementTabController extends CinemaManagementController {
         int cost;
         try {
             cost = Integer.parseInt(priceCostField.getText());
+            if (cost <= 0){
+                showAlert("Erreur", "Le prix doit être positif",
+                        Alert.AlertType.ERROR);
+                return;
+            }
         } catch (NumberFormatException e){
             showAlert("Erreur", "Le prix est obligatoire, il faut qu'il soit au format numérique",
                     Alert.AlertType.ERROR);

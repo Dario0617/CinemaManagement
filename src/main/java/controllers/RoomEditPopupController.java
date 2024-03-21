@@ -28,8 +28,11 @@ public class RoomEditPopupController extends CinemaManagementController {
 
     private Room roomToEdit;
 
-    public void setRoomEditPopup(Room room, Parent root) {
-        this.roomToEdit = room;
+    private MovieAndRoomListTabController movieAndRoomListTabController;
+
+    public void setRoomEditPopup(Room room, Parent root, MovieAndRoomListTabController movieAndRoomListTabController) {
+        this.movieAndRoomListTabController = movieAndRoomListTabController;
+        roomToEdit = room;
         roomNameField.setText(room.getName());
         capacityField.setText(Integer.toString(room.getCapacity()));
         colorPicker.setValue(Color.web(room.getColor()));
@@ -52,6 +55,11 @@ public class RoomEditPopupController extends CinemaManagementController {
         int capacity;
         try {
             capacity = Integer.parseInt(capacityField.getText());
+            if (capacity <= 0){
+                showAlert("Erreur", "La capacité doit être positive",
+                        Alert.AlertType.ERROR);
+                return;
+            }
         } catch (NumberFormatException e){
             showAlert("Erreur", "La capacité est obligatoire, il faut qu'elle soit au format numérique",
                     Alert.AlertType.ERROR);
@@ -69,6 +77,7 @@ public class RoomEditPopupController extends CinemaManagementController {
         } else {
             showAlert("Salle modifié", "La salle \"" + roomToEdit.getName() + "\" a été modifié avec succès !",
                     Alert.AlertType.INFORMATION);
+            movieAndRoomListTabController.loadRoomData();
         }
     }
 }

@@ -47,8 +47,11 @@ public class MovieEditPopupController extends CinemaManagementController {
 
     static ObservableMap<String, Integer> genderIds = FXCollections.observableHashMap();
 
-    public void setMovieEditPopup(Movie movie, Parent root) {
-        this.movieToEdit = movie;
+    private MovieAndRoomListTabController movieAndRoomListTabController;
+
+    public void setMovieEditPopup(Movie movie, Parent root, MovieAndRoomListTabController movieAndRoomListTabController) {
+        this.movieAndRoomListTabController = movieAndRoomListTabController;
+        movieToEdit = movie;
         movieNameField.setText(movie.getName());
         movieDetailsArea.setText(movie.getDetails());
 
@@ -101,6 +104,11 @@ public class MovieEditPopupController extends CinemaManagementController {
         int duration;
         try {
             duration = Integer.parseInt(movieDurationField.getText());
+            if (duration <= 0){
+                showAlert("Erreur", "La durée doit être positive",
+                        Alert.AlertType.ERROR);
+                return;
+            }
         } catch (NumberFormatException e){
             showAlert("Erreur", "La durée est obligatoire, il faut qu'elle soit au format numérique",
                     Alert.AlertType.ERROR);
@@ -121,6 +129,7 @@ public class MovieEditPopupController extends CinemaManagementController {
         } else {
             showAlert("Film modifié", "Le film \"" + movieToEdit.getName() + "\" a été modifié avec succès !",
                     Alert.AlertType.INFORMATION);
+            movieAndRoomListTabController.loadMovieData();
         }
     }
 }

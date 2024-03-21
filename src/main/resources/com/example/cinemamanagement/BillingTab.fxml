@@ -32,7 +32,7 @@
                <Insets top="5.0" />
             </padding></Label>
         </HBox>
-        <Button onAction="#editAction" text="Modifier" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Button onAction="#editAction" text="Enregistrer modification" GridPane.columnIndex="0" GridPane.rowIndex="5" />
         <Button onAction="#deleteAction" text="Supprimer" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <columnConstraints>
          <ColumnConstraints />

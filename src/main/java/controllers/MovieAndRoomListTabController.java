@@ -9,6 +9,7 @@ import dataBaseSQL.RoomSQL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,9 +54,9 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     @FXML
     private Button resetRoomFiltersButton;
 
-    public static List<Movie> originalMovieList = new ArrayList<>();
+    private List<Movie> originalMovieList = new ArrayList<>();
 
-    public static List<Room> originalRoomList = new ArrayList<>();
+    private List<Room> originalRoomList = new ArrayList<>();
 
     static ObservableMap<String, Integer> genderIds = FXCollections.observableHashMap();
 
@@ -63,13 +64,13 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
     @FXML
     private void initialize() {
-        configureColumns();
+        configureColumns(this);
         loadGenderDataAndInitializeFilter();
         loadMovieData();
         loadRoomData();
     }
 
-    public void configureColumns() {
+    public void configureColumns(MovieAndRoomListTabController movieAndRoomListTabController) {
         TableColumn<Movie, Void> actionColumn = (TableColumn<Movie, Void>) movieTableView.getColumns().get(7);
 
         actionColumn.setCellFactory(param -> new TableCell<>() {
@@ -78,7 +79,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
             {
                 editButton.setOnAction(event -> {
                     Movie movie = getTableView().getItems().get(getIndex());
-                    movieEditPopup(movie);
+                    movieEditPopup(movie, movieAndRoomListTabController);
                 });
 
                 deleteButton.setOnAction(event -> {
@@ -95,12 +96,12 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                 });
             }
 
-            private void movieEditPopup(Movie movie) {
+            private void movieEditPopup(Movie movie, MovieAndRoomListTabController movieAndRoomListTabController) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/MovieEditPopup.fxml"));
                     Parent root = loader.load();
                     MovieEditPopupController controller = loader.getController();
-                    controller.setMovieEditPopup(movie, root);
+                    controller.setMovieEditPopup(movie, root, movieAndRoomListTabController);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -127,7 +128,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
             {
                 editButton.setOnAction(event -> {
                     Room room = getTableView().getItems().get(getIndex());
-                    roomEditPopup(room);
+                    roomEditPopup(room, movieAndRoomListTabController);
                 });
 
                 deleteButton.setOnAction(event -> {
@@ -144,12 +145,12 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
                 });
             }
 
-            private void roomEditPopup(Room room) {
+            private void roomEditPopup(Room room, MovieAndRoomListTabController movieAndRoomListTabController) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cinemamanagement/RoomEditPopup.fxml"));
                     Parent root = loader.load();
                     RoomEditPopupController controller = loader.getController();
-                    controller.setRoomEditPopup(room, root);
+                    controller.setRoomEditPopup(room, root, movieAndRoomListTabController);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -183,6 +184,9 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
     public void loadMovieData() {
         List<Movie> movies = MovieSQL.GetMovies();
+        if (!originalMovieList.isEmpty()){
+            originalMovieList.clear();
+        }
         if (!movies.isEmpty()){
             originalMovieList.addAll(movies);
         }
@@ -191,6 +195,9 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
 
     public void loadRoomData() {
         List<Room> rooms = RoomSQL.GetRooms();
+        if (!originalRoomList.isEmpty()){
+            originalRoomList.clear();
+        }
         if (!rooms.isEmpty()){
             originalRoomList.addAll(rooms);
         }
@@ -249,7 +256,7 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
         movieStartDateFilterDatePicker.setValue(null);
         movieEndDateFilterDatePicker.setValue(null);
         movieDurationFilterField.clear();
-        configureColumns();
+        configureColumns(this);
         movieTableView.setItems(FXCollections.observableArrayList(originalMovieList));
         resetMovieFiltersButton.setDisable(true);
     }
@@ -273,8 +280,14 @@ public class MovieAndRoomListTabController extends CinemaManagementController {
     @FXML
     private void resetRoomFilters() {
         roomNameFilterField.clear();
-        configureColumns();
+        configureColumns(this);
         roomTableView.setItems(FXCollections.observableArrayList(originalRoomList));
         resetRoomFiltersButton.setDisable(true);
+    }
+
+    @FXML
+    public void refreshTables(ActionEvent actionEvent) {
+        loadMovieData();
+        loadRoomData();
     }
 }
