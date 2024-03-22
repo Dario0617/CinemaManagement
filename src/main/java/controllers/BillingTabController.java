@@ -25,7 +25,10 @@ public class BillingTabController extends CinemaManagementController {
     public ComboBox<Room> comboBoxRooms;
 
     @FXML
-    public DatePicker datePicker;
+    public DatePicker startDatePicker;
+
+    @FXML
+    public DatePicker endDatePicker;
 
     @FXML
     private ComboBox<Price> comboBoxPrice;
@@ -59,7 +62,8 @@ public class BillingTabController extends CinemaManagementController {
             comboBoxRooms.setItems(FXCollections.observableArrayList(rooms));
         });
 
-        datePicker.setValue(LocalDate.now());
+        startDatePicker.setValue(LocalDate.now());
+        endDatePicker.setValue(LocalDate.now());
     }
 
     @FXML
@@ -117,31 +121,42 @@ public class BillingTabController extends CinemaManagementController {
         Movie selectedMovie = comboBoxMovies.getSelectionModel().getSelectedItem();
         Room selectedRoom = comboBoxRooms.getSelectionModel().getSelectedItem();
 
-        Date date = Date.valueOf(datePicker.getValue());
+        Date startDate = Date.valueOf(startDatePicker.getValue());
+        Date endDate = Date.valueOf(endDatePicker.getValue());
+
+        String startDateFormatted = startDate.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
+        String endDateFormatted = endDate.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
+
+        String startMessage = "";
+        String alertTitle;
+        if (!startDate.equals(endDate)){
+            alertTitle = "Revenu entre le " + startDateFormatted + " et " + endDateFormatted;
+            startMessage = "Entre le " + startDateFormatted + " et " + endDateFormatted;
+        } else{
+            alertTitle = "Revenu du " + startDateFormatted;
+            startMessage = "Le " + startDateFormatted;
+        }
+
+        String incomeMessage = " nous avons réalisé un revenu de ";
 
        if (selectedMovie == null && selectedRoom == null){
-           float todayIncome = SlotPricingSQL.GetIncome(date,null, null);
-           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
-                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
+           float todayIncome = SlotPricingSQL.GetIncome(startDate, endDate, null, null);
+           showAlert(alertTitle,startMessage +
                            " nous avons réalisé un revenu de " + todayIncome + "€ pour toutes les salles et films",
                    Alert.AlertType.INFORMATION);
        } else if (selectedMovie != null && selectedRoom == null) {
-           float todayIncome = SlotPricingSQL.GetIncome(date, selectedMovie, null);
-           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
-                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
-                           " nous avons réalisé un revenu de " + todayIncome + "€ pour le film '" + selectedMovie.getName() + "'",
+           float todayIncome = SlotPricingSQL.GetIncome(startDate, endDate, selectedMovie, null);
+           showAlert(alertTitle,startMessage + incomeMessage + todayIncome + "€ pour le film '" +
+                           selectedMovie.getName() + "'",
                    Alert.AlertType.INFORMATION);
        } else if (selectedMovie == null && selectedRoom != null) {
-           float todayIncome = SlotPricingSQL.GetIncome(date, null, selectedRoom);
-           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
-                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
-                           " nous avons réalisé un revenu de " + todayIncome + "€ pour la salle '" + selectedRoom.getName() + "'",
+           float todayIncome = SlotPricingSQL.GetIncome(startDate, endDate, null, selectedRoom);
+           showAlert(alertTitle,startMessage + incomeMessage + todayIncome + "€ pour la salle '" +
+                           selectedRoom.getName() + "'",
                    Alert.AlertType.INFORMATION);
        } else {
-           float todayIncome = SlotPricingSQL.GetIncome(date, selectedMovie, selectedRoom);
-           showAlert("Revenu du " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
-                   "Le " + date.toLocalDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")) +
-                           " nous avons réalisé un revenu de " + todayIncome +
+           float todayIncome = SlotPricingSQL.GetIncome(startDate, endDate, selectedMovie, selectedRoom);
+           showAlert(alertTitle,startMessage + incomeMessage + todayIncome +
                            "€ pour le film '" + selectedMovie.getName() + "' dans la salle '" + selectedRoom.getName() + "'",
                    Alert.AlertType.INFORMATION);
        }

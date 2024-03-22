@@ -50,20 +50,23 @@
 
     <!-- Section Revenu du Jour -->
     <GridPane alignment="center" hgap="10" vgap="10" GridPane.columnIndex="2" GridPane.columnSpan="3">
-        <Label text="Revenu du Jour" GridPane.columnIndex="0" GridPane.columnSpan="2" />
+        <Label text="Calcul du revenu" GridPane.columnIndex="0" GridPane.columnSpan="2" />
         <Separator orientation="HORIZONTAL" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
         <Label text="Sélectionner un film:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <ComboBox fx:id="comboBoxMovies" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Label text="Sélectionner une salle:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
         <ComboBox fx:id="comboBoxRooms" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <Label text="Sélectionner une date : " GridPane.rowIndex="4" />
-        <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <Button onAction="#getIncome" text="Calculer" GridPane.rowIndex="5" />
+        <Label text="Sélectionner une date debut : " GridPane.rowIndex="4" />
+        <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label text="Sélectionner une date de fin : " GridPane.rowIndex="5" />
+        <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Button onAction="#getIncome" text="Calculer" GridPane.rowIndex="6" />
       <columnConstraints>
          <ColumnConstraints />
          <ColumnConstraints />
       </columnConstraints>
       <rowConstraints>
+         <RowConstraints />
          <RowConstraints />
          <RowConstraints />
          <RowConstraints />
