@@ -4,7 +4,6 @@ import classes.Movie;
 import classes.Room;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.HashMap;
 
 public class SlotPricingSQL {

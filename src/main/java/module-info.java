@@ -5,6 +5,7 @@ module com.example.cinemamanagement {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
+    requires junit;
 
     opens com.example.cinemamanagement to javafx.fxml;
     exports com.example.cinemamanagement;
@@ -12,4 +13,5 @@ module com.example.cinemamanagement {
     opens classes to javafx.fxml;
     exports controllers;
     opens controllers to javafx.fxml;
+    exports test;
 }
