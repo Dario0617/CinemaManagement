@@ -86,21 +86,24 @@ public class SlotPricingSQL {
                 "WHERE Slot.Date >= ? AND Slot.Date <= ?";
         if (movie != null){
             sql += " AND Slot.MovieId = ?";
+            System.out.println(movie.getId());
         }
         if (room != null){
             sql += " AND Slot.RoomId = ?";
+            System.out.println(room.getId());
         }
+        System.out.println(sql);
         float todayIncome = 0;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setDate(1, startDate);
             preparedStatement.setDate(2, endDate);
             if (movie != null){
-                preparedStatement.setInt(2, movie.getId());
+                preparedStatement.setInt(3, movie.getId());
             }
             if (room != null){
-                int index = 2;
+                int index = 3;
                 if (movie != null){
-                    index = 3;
+                    index = 4;
                 }
                 preparedStatement.setInt(index, room.getId());
             }
